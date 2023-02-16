@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_font_black">#22215B</color>
+    <color name="gray_arrow">#C1C6CE</color>
+    <color name="orange_new">#F5930A</color>
+    <color name="white_pressed">#ffffff</color>
+</resources>
