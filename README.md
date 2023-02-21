@@ -26,3 +26,5 @@ repositories {
 	</repository>
 </repositories>
 ```
+
+[![](https://jitpack.io/v/asadej0951/Calendar-Custom-library.svg)](https://jitpack.io/#asadej0951/Calendar-Custom-library)
