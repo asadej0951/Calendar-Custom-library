@@ -277,6 +277,8 @@ class CalenderCustom @JvmOverloads constructor(
                 startWeek = 2
             }
         }
+
+        resetViewAll()
     }
 
     fun setFormatterCalender(simpleDateFormat: SimpleDateFormat) {
