@@ -14,7 +14,15 @@ repositories {
   
   ```
  dependencies {
-	        implementation 'com.github.asadej0951:Calendar-Custom-library:1.0.2'
+	implementation 'com.github.asadej0951:Calendar-Custom-library:1.0.2'
 	}
 ```
- 
+ #Maven
+ ```
+<repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
