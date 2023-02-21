@@ -4,11 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calendar_custom_library.R
@@ -32,13 +35,23 @@ class CalenderCustom @JvmOverloads constructor(
         const val SUN = 7
         const val MAX_CALENDAR_DAYS = 42
 
-        val calender = Calendar.getInstance()
-        var startWeek = 2
+
     }
 
+    private val calender = Calendar.getInstance()
+    private var startWeek = 2
+    private var sizeText = 18f
+    private val onClickCalendar = MutableLiveData<Date>()
+
+    private var colorTextDay: Int = R.color.text_font_black
+    private var colorMarkDay: Int = R.color.orange_new
+    private var colorTextMarkDay: Int = R.color.white
+    private var colorTextHeaderCalender = R.color.text_font_black
+
+    private val clickCalendar = Calendar.getInstance()
     private var mContext: Context? = null
 
-    private lateinit var mAdapterDayCalendar :AdapterDayCalendar
+    private lateinit var mAdapterDayCalendar: AdapterDayCalendar
 
     private val nameDay = arrayListOf<String>("จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
 
@@ -48,6 +61,8 @@ class CalenderCustom @JvmOverloads constructor(
     private var textDay: TextView? = null
     private var lineNameDayToNameWeek: TextView? = null
     private var recyclerViewDay: RecyclerView? = null
+    private var btnBack: ImageButton? = null
+    private var btnNext: ImageButton? = null
 
     private var dates: MutableList<Date> = ArrayList()
     private var week = 0
@@ -59,25 +74,142 @@ class CalenderCustom @JvmOverloads constructor(
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.calender_custom, this)
-        setStartDayOfWeek(MON)
+
         layoutDay = findViewById(R.id.layoutDay)
+        btnBack = findViewById(R.id.btnBack)
+        btnNext = findViewById(R.id.btnNext)
         textDay = findViewById(R.id.textDay)
         lineNameDayToNameWeek = findViewById(R.id.lineNameDayToNameWeek)
         recyclerViewDay = findViewById(R.id.recyclerViewDay)
         setDayStart(com.google.android.material.R.color.design_default_color_on_background)
         textDay?.let { textDay ->
+            textDay.textSize = sizeText
             textDay.text = formatter.format(calender.time)
         }
         setModelDate()
         setRecyclerView()
+        eventClickButtonNextBack()
+    }
+
+    private fun resetViewAll() {
+        setDayStart(com.google.android.material.R.color.design_default_color_on_background)
+        textDay?.let { textDay ->
+            textDay.textSize = sizeText
+            textDay.text = formatter.format(calender.time)
+        }
+        setModelDate()
+        setRecyclerView()
+        eventClickButtonNextBack()
+    }
+
+    private fun eventClickButtonNextBack() {
+
+        mContext?.let {
+            onClickCalendar.observe(it as LifecycleOwner, androidx.lifecycle.Observer { date ->
+                clickCalendar.time = date
+                mAdapterDayCalendar.notifyDataSetChanged()
+            })
+        }
+        btnNext?.let {
+            it.setOnClickListener {
+                calender.set(
+                    calender.get(Calendar.YEAR),
+                    calender.get(Calendar.MONTH) + 1,
+                    getDayInMonth(true)
+                )
+                resetRecyclerView()
+            }
+        }
+        btnBack?.let {
+            it.setOnClickListener {
+                calender.set(
+                    calender.get(Calendar.YEAR),
+                    calender.get(Calendar.MONTH) - 1,
+                    getDayInMonth(false)
+                )
+                resetRecyclerView()
+            }
+        }
+    }
+
+    fun setCalender(calender: Date) {
+        this.calender.time = calender
+        resetViewAll()
+    }
+
+    fun setSizeText(sizeText: Float) {
+        this.sizeText = sizeText
+        resetViewAll()
+    }
+
+    private fun resetRecyclerView() {
+        textDay?.let { textDay ->
+            textDay.text = formatter.format(calender.time)
+        }
+        setModelDate()
+        mAdapterDayCalendar.notifyDataSetChanged()
+    }
+
+    fun onClickCalender(callBack: ((Date) -> Unit)) {
+        mContext?.let {
+            onClickCalendar.observe(it as LifecycleOwner, androidx.lifecycle.Observer { date ->
+                callBack.invoke(date)
+            })
+        }
+
+    }
+
+    fun setColorTextHeaderCalender(colorTextHeaderCalender : Int){
+        this.colorTextHeaderCalender = colorTextHeaderCalender
+        textDay?.let{
+            it.setTextColor(resources.getColor(colorTextHeaderCalender))
+        }
+
+    }
+
+    fun setTintButtonNextAndBack(colorTint : Int){
+        btnBack?.let {
+            it.imageTintList = resources.getColorStateList(colorTint)
+        }
+        btnNext?.let {
+            it.imageTintList = resources.getColorStateList(colorTint)
+        }
+    }
+    fun setColorTextDay(colorTextDay:Int){
+        this.colorTextDay = colorTextDay
+        setRecyclerView()
+    }
+    fun setColorMarkDay(colorMarkDay:Int){
+        this.colorMarkDay = colorMarkDay
+        setRecyclerView()
+    }
+    fun setColorTextMarkDay(colorMarkDay:Int){
+        this.colorMarkDay = colorMarkDay
+        setRecyclerView()
+    }
+    fun setColorTextDayAndColorMarkDay(colorTextDay:Int,colorMarkDay:Int){
+        this.colorTextDay = colorMarkDay
+        this.colorMarkDay = colorMarkDay
+        setRecyclerView()
     }
 
     private fun setRecyclerView() {
-        recyclerViewDay?.let {recyclerViewDay ->
-            mContext?.let {mContext->
-                mAdapterDayCalendar = AdapterDayCalendar(mContext,dates)
+        recyclerViewDay?.let { recyclerViewDay ->
+            mContext?.let { mContext ->
+                mAdapterDayCalendar = AdapterDayCalendar(
+                    mContext,
+                    dates,
+                    sizeText,
+                    calender,
+                    clickCalendar,
+                    onClickCalendar,
+                    colorTextDay,
+                    colorMarkDay,
+                    colorTextMarkDay
+                )
                 recyclerViewDay.apply {
-                    layoutManager =  GridLayoutManager(mContext, 7, GridLayoutManager.VERTICAL, false)
+                    layoutManager =
+                        GridLayoutManager(mContext, 7, GridLayoutManager.VERTICAL, false)
                     adapter = mAdapterDayCalendar
                     mAdapterDayCalendar.notifyDataSetChanged()
                 }
@@ -101,8 +233,8 @@ class CalenderCustom @JvmOverloads constructor(
                     tvNameDay.layoutParams = params
                     tvNameDay.text = nameDay[i - 1]
                     tvNameDay.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                    tvNameDay.setTextColor(it.resources.getColor(colorTextDay))
-                    tvNameDay.textSize = 14f
+                    tvNameDay.setTextColor(colorTextDay)
+                    tvNameDay.textSize = sizeText
                     layoutDay.addView(tvNameDay)
                 }
             }
@@ -154,7 +286,7 @@ class CalenderCustom @JvmOverloads constructor(
         }
     }
 
-    fun setModelDate() {
+    private fun setModelDate() {
         val monthCalendar = calender.clone() as Calendar
         monthCalendar[Calendar.DAY_OF_MONTH] = -1
         val firstDayOfMonth = monthCalendar[Calendar.DAY_OF_WEEK] - startWeek
@@ -179,11 +311,34 @@ class CalenderCustom @JvmOverloads constructor(
         }
     }
 
-    fun setColorLine() {
+    fun setColorLine(color: Int) {
         lineNameDayToNameWeek?.let { lineNameDayToNameWeek ->
-            lineNameDayToNameWeek.setBackgroundColor(resources.getColor(com.google.android.material.R.color.primary_material_dark))
+            lineNameDayToNameWeek.setBackgroundColor(color)
 
         }
+    }
+
+    fun setLineNameDayToNameWeekVisibility(visibility: Int) {
+        lineNameDayToNameWeek?.let { lineNameDayToNameWeek ->
+            lineNameDayToNameWeek.visibility = visibility
+
+        }
+    }
+
+    private fun getDayInMonth(statusClick: Boolean): Int {
+        var day = 0
+        val cal = Calendar.getInstance()
+        val month =
+            if (statusClick) calender.get(Calendar.MONTH) + 1 else calender.get(Calendar.MONTH) - 1
+        cal.set(calender.get(Calendar.YEAR), month, 1)
+        cal.set(calender.get(Calendar.YEAR), calender.get(Calendar.MONTH) + 1, 1)
+        day =
+            if (calender.get(Calendar.DAY_OF_MONTH) > cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+            } else {
+                calender.get(Calendar.DAY_OF_MONTH)
+            }
+        return day
     }
 
 }

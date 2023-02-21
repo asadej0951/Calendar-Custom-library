@@ -6,22 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calendar_custom_library.R
 import java.util.*
 
 class AdapterDayCalendar(
     private val mContext: Context,
-    private val dayData: MutableList<Date>
+    private val dayData: MutableList<Date>,
+    private val sizeText: Float,
+    private val calenderShowView: Calendar,
+    private val clickCalendar: Calendar,
+    private val onClickCalendar: MutableLiveData<Date>,
+    private val colorTextDay: Int,
+    private val colorMarkDay: Int,
+    private val colorTextMarkDay: Int
 ) : RecyclerView.Adapter<ViewHolderItemDayCalendar>() {
     private var date: Date? = null
-    private val currentCalendar = Calendar.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderItemDayCalendar {
 
         return ViewHolderItemDayCalendar(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.item_day,parent,false
+                R.layout.item_day, parent, false
             )
         )
     }
@@ -35,31 +42,44 @@ class AdapterDayCalendar(
         val yearSetModel = dateSetModel[Calendar.YEAR]
 
         holder.textNameDay.text = daySetModel.toString()
+        holder.textNameDay.textSize = sizeText
         holder.textNameDay.setTextColor(
             mContext.resources.getColor(
                 if (checkDayInMonth(
                         monthSetModel,
                         yearSetModel
                     )
-                ) R.color.text_font_black else R.color.gray_arrow
+                ) colorTextDay else R.color.gray_arrow
             )
         )
 
         if (checkToDay(daySetModel, monthSetModel, yearSetModel)) {
             holder.layoutDay.backgroundTintList =
-                mContext.resources.getColorStateList(R.color.orange_new)
-            holder.textNameDay.setTextColor(mContext.resources.getColor(R.color.white_pressed))
+                mContext.resources.getColorStateList(colorMarkDay)
+            holder.textNameDay.setTextColor(mContext.resources.getColor(colorTextMarkDay))
+        } else {
+            holder.layoutDay.backgroundTintList =
+                mContext.resources.getColorStateList(R.color.clear_color)
+        }
+        setEventClick(holder, position)
+    }
+
+    private fun setEventClick(holder: ViewHolderItemDayCalendar, position: Int) {
+        holder.itemView.setOnClickListener {
+            onClickCalendar.value = dayData[position]
         }
     }
 
     private fun checkToDay(daySetModel: Int, monthSetModel: Int, yearSetModel: Int): Boolean {
-        return currentCalendar.get(Calendar.DAY_OF_MONTH) == daySetModel && currentCalendar.get(
+        return clickCalendar.get(Calendar.DAY_OF_MONTH) == daySetModel && clickCalendar.get(
             Calendar.MONTH
-        ) == monthSetModel && currentCalendar.get(Calendar.YEAR) == yearSetModel
+        ) == monthSetModel && clickCalendar.get(Calendar.YEAR) == yearSetModel
     }
 
     private fun checkDayInMonth(monthSetModel: Int, yearSetModel: Int): Boolean {
-        return currentCalendar.get(Calendar.MONTH) == monthSetModel && currentCalendar.get(Calendar.YEAR) == yearSetModel
+        return calenderShowView.get(Calendar.MONTH) == monthSetModel && calenderShowView.get(
+            Calendar.YEAR
+        ) == yearSetModel
 
     }
 
@@ -67,8 +87,8 @@ class AdapterDayCalendar(
 }
 
 
-class ViewHolderItemDayCalendar(item: View):RecyclerView.ViewHolder(item){
-    val layoutDay : LinearLayout = item.findViewById(R.id.layoutDay)
-    val textStatus : TextView = item.findViewById(R.id.textStatus)
-    val textNameDay : TextView = item.findViewById(R.id.textNameDay)
+class ViewHolderItemDayCalendar(item: View) : RecyclerView.ViewHolder(item) {
+    val layoutDay: LinearLayout = item.findViewById(R.id.layoutDay)
+    val textStatus: TextView = item.findViewById(R.id.textStatus)
+    val textNameDay: TextView = item.findViewById(R.id.textNameDay)
 }

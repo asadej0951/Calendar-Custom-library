@@ -4,4 +4,5 @@
     <color name="gray_arrow">#C1C6CE</color>
     <color name="orange_new">#F5930A</color>
     <color name="white_pressed">#ffffff</color>
+    <color name="clear_color">#000000FF</color>
 </resources>
