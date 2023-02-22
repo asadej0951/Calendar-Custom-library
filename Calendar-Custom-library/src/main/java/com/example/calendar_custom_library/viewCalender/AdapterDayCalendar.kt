@@ -17,10 +17,10 @@ class AdapterDayCalendar(
     private val sizeText: Float,
     private val calenderShowView: Calendar,
     private val clickCalendar: Calendar,
-    private val onClickCalendar: MutableLiveData<Date>,
     private val colorTextDay: Int,
     private val colorMarkDay: Int,
-    private val colorTextMarkDay: Int
+    private val colorTextMarkDay: Int,
+    private val callBack: ((Date) -> Unit)
 ) : RecyclerView.Adapter<ViewHolderItemDayCalendar>() {
     private var date: Date? = null
 
@@ -66,7 +66,7 @@ class AdapterDayCalendar(
 
     private fun setEventClick(holder: ViewHolderItemDayCalendar, position: Int) {
         holder.itemView.setOnClickListener {
-            onClickCalendar.value = dayData[position]
+            callBack.invoke(dayData[position])
         }
     }
 

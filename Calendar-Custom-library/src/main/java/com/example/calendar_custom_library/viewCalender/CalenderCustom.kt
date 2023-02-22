@@ -1,5 +1,6 @@
 package com.example.calendar_custom_library.viewCalender
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
@@ -15,28 +16,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calendar_custom_library.R
+import com.example.calendar_custom_library.viewCalender.ObjectCalender.MAX_CALENDAR_DAYS
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+@SuppressLint("UseCompatLoadingForColorStateLists,PrivateResource,NotifyDataSetChanged")
 class CalenderCustom @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    companion object {
-        const val MON = 1
-        const val TUE = 2
-        const val WED = 3
-        const val THU = 4
-        const val FRI = 5
-        const val SAT = 6
-        const val SUN = 7
-        const val MAX_CALENDAR_DAYS = 42
-
-
-    }
 
     private val calender = Calendar.getInstance()
     private var startWeek = 2
@@ -53,7 +43,7 @@ class CalenderCustom @JvmOverloads constructor(
 
     private lateinit var mAdapterDayCalendar: AdapterDayCalendar
 
-    private val nameDay = arrayListOf<String>("จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
+    private val nameDay = arrayListOf("จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
 
     private var formatter = SimpleDateFormat("MMMM yyyy", Locale("th", "TH"))
 
@@ -71,6 +61,7 @@ class CalenderCustom @JvmOverloads constructor(
         mContext = context
         init(attrs)
     }
+
 
     private fun init(attrs: AttributeSet?) {
         View.inflate(context, R.layout.calender_custom, this)
@@ -103,13 +94,6 @@ class CalenderCustom @JvmOverloads constructor(
     }
 
     private fun eventClickButtonNextBack() {
-
-        mContext?.let {
-            onClickCalendar.observe(it as LifecycleOwner, androidx.lifecycle.Observer { date ->
-                clickCalendar.time = date
-                mAdapterDayCalendar.notifyDataSetChanged()
-            })
-        }
         btnNext?.let {
             it.setOnClickListener {
                 calender.set(
@@ -150,7 +134,7 @@ class CalenderCustom @JvmOverloads constructor(
         mAdapterDayCalendar.notifyDataSetChanged()
     }
 
-    fun onClickCalender(callBack: ((Date) -> Unit)) {
+    fun setOnClickCalender(callBack: ((Date) -> Unit)) {
         mContext?.let {
             onClickCalendar.observe(it as LifecycleOwner, androidx.lifecycle.Observer { date ->
                 callBack.invoke(date)
@@ -159,15 +143,14 @@ class CalenderCustom @JvmOverloads constructor(
 
     }
 
-    fun setColorTextHeaderCalender(colorTextHeaderCalender : Int){
+    fun setColorTextHeaderCalender(colorTextHeaderCalender: Int) {
         this.colorTextHeaderCalender = colorTextHeaderCalender
-        textDay?.let{
-            it.setTextColor(resources.getColor(colorTextHeaderCalender))
-        }
+        textDay?.setTextColor(resources.getColor(colorTextHeaderCalender))
 
     }
 
-    fun setTintButtonNextAndBack(colorTint : Int){
+
+    fun setTintButtonNextAndBack(colorTint: Int) {
         btnBack?.let {
             it.imageTintList = resources.getColorStateList(colorTint)
         }
@@ -175,19 +158,23 @@ class CalenderCustom @JvmOverloads constructor(
             it.imageTintList = resources.getColorStateList(colorTint)
         }
     }
-    fun setColorTextDay(colorTextDay:Int){
+
+    fun setColorTextDay(colorTextDay: Int) {
         this.colorTextDay = colorTextDay
         setRecyclerView()
     }
-    fun setColorMarkDay(colorMarkDay:Int){
+
+    fun setColorMarkDay(colorMarkDay: Int) {
         this.colorMarkDay = colorMarkDay
         setRecyclerView()
     }
-    fun setColorTextMarkDay(colorMarkDay:Int){
+
+    fun setColorTextMarkDay(colorMarkDay: Int) {
         this.colorMarkDay = colorMarkDay
         setRecyclerView()
     }
-    fun setColorTextDayAndColorMarkDay(colorTextDay:Int,colorMarkDay:Int){
+
+    fun setColorTextDayAndColorMarkDay(colorTextDay: Int, colorMarkDay: Int) {
         this.colorTextDay = colorMarkDay
         this.colorMarkDay = colorMarkDay
         setRecyclerView()
@@ -202,11 +189,14 @@ class CalenderCustom @JvmOverloads constructor(
                     sizeText,
                     calender,
                     clickCalendar,
-                    onClickCalendar,
                     colorTextDay,
                     colorMarkDay,
                     colorTextMarkDay
-                )
+                ) {
+                    onClickCalendar.value = it
+                    clickCalendar.time = it
+                    mAdapterDayCalendar.notifyDataSetChanged()
+                }
                 recyclerViewDay.apply {
                     layoutManager =
                         GridLayoutManager(mContext, 7, GridLayoutManager.VERTICAL, false)
@@ -249,31 +239,31 @@ class CalenderCustom @JvmOverloads constructor(
         nameDay.clear()
         when (MON) {
             2 -> {
-                nameDay.addAll(arrayListOf<String>("อ", "พ", "พฤ", "ศ", "ส", "อา", "จ"))
+                nameDay.addAll(arrayListOf("อ", "พ", "พฤ", "ศ", "ส", "อา", "จ"))
                 startWeek = 3
             }
             3 -> {
-                nameDay.addAll(arrayListOf<String>("พ", "พฤ", "ศ", "ส", "อา", "จ", "อ"))
+                nameDay.addAll(arrayListOf("พ", "พฤ", "ศ", "ส", "อา", "จ", "อ"))
                 startWeek = 4
             }
             4 -> {
-                nameDay.addAll(arrayListOf<String>("พฤ", "ศ", "ส", "อา", "จ", "อ", "พ"))
+                nameDay.addAll(arrayListOf("พฤ", "ศ", "ส", "อา", "จ", "อ", "พ"))
                 startWeek = 5
             }
             5 -> {
-                nameDay.addAll(arrayListOf<String>("ศ", "ส", "อา", "จ", "อ", "พ", "พฤ"))
+                nameDay.addAll(arrayListOf("ศ", "ส", "อา", "จ", "อ", "พ", "พฤ"))
                 startWeek = 6
             }
             6 -> {
-                nameDay.addAll(arrayListOf<String>("ส", "อา", "จ", "อ", "พ", "พฤ", "ศ"))
+                nameDay.addAll(arrayListOf("ส", "อา", "จ", "อ", "พ", "พฤ", "ศ"))
                 startWeek = 0
             }
             7 -> {
-                nameDay.addAll(arrayListOf<String>("อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"))
+                nameDay.addAll(arrayListOf("อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"))
                 startWeek = 1
             }
             else -> {
-                nameDay.addAll(arrayListOf<String>("จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"))
+                nameDay.addAll(arrayListOf("จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"))
                 startWeek = 2
             }
         }
