@@ -1,4 +1,4 @@
-package com.example.calendar_custom_library.viewCalender
+package com.example.calendar_custom_library.viewCalender.objectCalender
 
 object ObjectCalender {
     const val MON = 1

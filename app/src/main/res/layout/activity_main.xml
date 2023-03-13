@@ -7,9 +7,12 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/text01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
+        android:visibility="invisible"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +22,12 @@
         android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:color_text_day_calender="#03A9F4"
+        app:color_text_name_day="@color/purple_200"
+        app:color_text_title="@color/orange_new"
+        app:color_mark_day="@color/black"
+        app:color_line_name_day="@color/orange_new"
+        app:color_text_mark_day_calender="@color/orange_new"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

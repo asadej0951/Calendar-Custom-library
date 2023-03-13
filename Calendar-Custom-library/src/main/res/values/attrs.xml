@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CalenderCustom">
+        <attr name="color_text_title" format="reference|color" />
+        <attr name="size_text_title" format="dimension" />
+
+        <attr name="size_text_name_day" format="dimension" />
+        <attr name="color_text_name_day" format="reference|color" />
+
+        <attr name="size_text_day_calender" format="dimension" />
+        <attr name="color_mark_day" format="reference|color" />
+        <attr name="color_text_day_calender" format="reference|color" />
+        <attr name="color_text_mark_day_calender" format="reference|color" />
+
+        <attr name="theme_calender">
+            <enum name="default_calender" value="1" />
+        </attr>
+
+        <attr name="start_week_calender">
+            <enum name="mon" value="1" />
+            <enum name="tue" value="2" />
+            <enum name="wed" value="3" />
+            <enum name="thu" value="4" />
+            <enum name="fri" value="5" />
+            <enum name="sat" value="6" />
+            <enum name="sun" value="7" />
+        </attr>
+
+        <attr name="visibility_line_name_day">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
+        <attr name="color_line_name_day" format="reference|color"/>
+        <attr name="size_line_name_day" format="dimension"/>
+
+
+    </declare-styleable>
+</resources>

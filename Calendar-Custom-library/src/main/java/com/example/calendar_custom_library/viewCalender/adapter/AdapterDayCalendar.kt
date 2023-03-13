@@ -1,6 +1,7 @@
-package com.example.calendar_custom_library.viewCalender
+package com.example.calendar_custom_library.viewCalender.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ class AdapterDayCalendar(
     private val calenderShowView: Calendar,
     private val clickCalendar: Calendar,
     private val colorTextDay: Int,
-    private val colorMarkDay: Int,
+    private val colorMarkDay: ColorStateList,
     private val colorTextMarkDay: Int,
     private val callBack: ((Date) -> Unit)
 ) : RecyclerView.Adapter<ViewHolderItemDayCalendar>() {
@@ -44,19 +45,16 @@ class AdapterDayCalendar(
         holder.textNameDay.text = daySetModel.toString()
         holder.textNameDay.textSize = sizeText
         holder.textNameDay.setTextColor(
-            mContext.resources.getColor(
-                if (checkDayInMonth(
-                        monthSetModel,
-                        yearSetModel
-                    )
-                ) colorTextDay else R.color.gray_arrow
-            )
+            if (checkDayInMonth(
+                    monthSetModel,
+                    yearSetModel
+                )
+            ) colorTextDay else mContext.resources.getColor(R.color.gray_arrow)
         )
 
         if (checkToDay(daySetModel, monthSetModel, yearSetModel)) {
-            holder.layoutDay.backgroundTintList =
-                mContext.resources.getColorStateList(colorMarkDay)
-            holder.textNameDay.setTextColor(mContext.resources.getColor(colorTextMarkDay))
+            holder.layoutDay.backgroundTintList = colorMarkDay
+            holder.textNameDay.setTextColor(colorTextMarkDay)
         } else {
             holder.layoutDay.backgroundTintList =
                 mContext.resources.getColorStateList(R.color.clear_color)
