@@ -14,7 +14,7 @@ repositories {
   
   ```
  dependencies {
-	implementation 'com.github.asadej0951:Calendar-Custom-library:1.0.3'
+	implementation 'com.github.asadej0951:Calendar-Custom-library:1.0.4'
 	}
 ```
  #Maven
