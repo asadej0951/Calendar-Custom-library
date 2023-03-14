@@ -44,4 +44,6 @@ interface EventCalenderManager {
 
     fun setLineNameColor(color : Int)
     fun setLineNameSize(size : Int)
+
+    fun setOnClickButtonBackAndNextCalender(callback: ((Date) -> Unit))
 }

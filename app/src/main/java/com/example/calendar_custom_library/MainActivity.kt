@@ -25,6 +25,11 @@ class MainActivity : AppCompatActivity() {
         }
         val x = findViewById<CalenderCustom>(R.id.test)
 
+        x.setOnClickButtonBackAndNextCalender{
+                        c.time = it
+            Toast.makeText(this, "${c.get(Calendar.MONTH)}//${c.get(Calendar.YEAR)}.", Toast.LENGTH_SHORT).show()
+        }
+
 //        x.setCalender(convertStringCalendar("2022-07-15 19:30:33"))
 //        x.setOnClickCalender {date ->
 //            c.time = date

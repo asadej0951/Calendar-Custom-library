@@ -178,6 +178,12 @@ class CalenderCustom : ConstraintLayout {
         manager.setStartDayOfWeek(startWeek)
     }
 
+    fun setOnClickButtonBackAndNextCalender(callBack: (Date) -> Unit){
+        manager.setOnClickButtonBackAndNextCalender {
+            callBack.invoke(it)
+        }
+    }
+
 
     fun setFormatterCalender(simpleDateFormat: SimpleDateFormat) {
         manager.setFormatterCalender(simpleDateFormat)

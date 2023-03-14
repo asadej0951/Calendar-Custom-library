@@ -27,6 +27,7 @@ class CalenderDefaultType : EventCalenderManager {
     private val calenderShowView = Calendar.getInstance()
     private val clickCalendar = Calendar.getInstance()
     private val onClickCalendar = MutableLiveData<Date>()
+    private val onClickButtonBackAndNextCalender =MutableLiveData<Date>()
     private var formatter = SimpleDateFormat("MMMM yyyy", Locale("th", "TH"))
 
 
@@ -98,6 +99,8 @@ class CalenderDefaultType : EventCalenderManager {
             binding.textDay.text = formatter.format(calenderShowView.time)
             setRecyclerViewDay()
 
+            onClickButtonBackAndNextCalender.value = calenderShowView.time
+
         }
         binding.btnNext.setOnClickListener {
             calenderShowView.set(
@@ -107,6 +110,7 @@ class CalenderDefaultType : EventCalenderManager {
             )
             binding.textDay.text = formatter.format(calenderShowView.time)
             setRecyclerViewDay()
+            onClickButtonBackAndNextCalender.value = calenderShowView.time
         }
 
         mEventCalender.setDayStart(
@@ -218,5 +222,11 @@ class CalenderDefaultType : EventCalenderManager {
     override fun setLineNameSize(size: Int) {
         val params = LinearLayout.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, size)
         binding.lineNameDayToNameWeek.layoutParams = params
+    }
+
+    override fun setOnClickButtonBackAndNextCalender(callback: (Date) -> Unit) {
+        onClickButtonBackAndNextCalender.observe(context as LifecycleOwner,  androidx.lifecycle.Observer {
+            callback.invoke(it)
+        })
     }
 }
