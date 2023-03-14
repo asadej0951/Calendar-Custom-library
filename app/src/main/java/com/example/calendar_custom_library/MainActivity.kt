@@ -26,17 +26,13 @@ class MainActivity : AppCompatActivity() {
         val x = findViewById<CalenderCustom>(R.id.test)
 
         x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
-
-        x.setOnClickButtonBackAndNextCalender{
-                        c.time = it
-            Toast.makeText(this, "${c.get(Calendar.MONTH)}//${c.get(Calendar.YEAR)}.", Toast.LENGTH_SHORT).show()
+        var formatter = SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH"))
+        x.setOnClickCalender {
+            Log.i("checkDate",formatter.format(it))
         }
-
-//        x.setCalender(convertStringCalendar("2022-07-15 19:30:33"))
-//        x.setOnClickCalender {date ->
-//            c.time = date
-//            Toast.makeText(this, "${c.get(Calendar.YEAR)}.", Toast.LENGTH_SHORT).show()
-//        }
+        x.setOnClickButtonBackAndNextCalender {
+            Log.i("checkDate",formatter.format(it))
+        }
 
     }
     private fun convertStringCalendar(dateTime: String): Date {

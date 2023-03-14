@@ -27,7 +27,7 @@ class CalenderDefaultType : EventCalenderManager {
     private val calenderShowView = Calendar.getInstance()
     private val clickCalendar = Calendar.getInstance()
     private val onClickCalendar = MutableLiveData<Date>()
-    private val onClickButtonBackAndNextCalender =MutableLiveData<Date>()
+    private val onClickButtonBackAndNextCalender = MutableLiveData<Date>()
     private var formatter = SimpleDateFormat("MMMM yyyy", Locale("th", "TH"))
 
 
@@ -89,8 +89,6 @@ class CalenderDefaultType : EventCalenderManager {
         setMarkTextDayColor(markTextDayColor)
 
 
-        binding.textDay.text = formatter.format(calenderShowView.time)
-
         binding.btnBack.setOnClickListener {
             calenderShowView.set(
                 calenderShowView.get(Calendar.YEAR),
@@ -98,8 +96,8 @@ class CalenderDefaultType : EventCalenderManager {
                 mEventCalender.getDayInMonth(false, calenderShowView)
             )
             binding.textDay.text = formatter.format(calenderShowView.time)
+            clickCalendar.time = calenderShowView.time
             setRecyclerViewDay()
-
             onClickButtonBackAndNextCalender.value = calenderShowView.time
 
         }
@@ -110,6 +108,7 @@ class CalenderDefaultType : EventCalenderManager {
                 mEventCalender.getDayInMonth(true, calenderShowView)
             )
             binding.textDay.text = formatter.format(calenderShowView.time)
+            clickCalendar.time = calenderShowView.time
             setRecyclerViewDay()
             onClickButtonBackAndNextCalender.value = calenderShowView.time
         }
@@ -140,6 +139,9 @@ class CalenderDefaultType : EventCalenderManager {
         ) {
             onClickCalendar.value = it
             clickCalendar.time = it
+            calenderShowView.time = clickCalendar.time
+            setRecyclerViewDay()
+            binding.textDay.text = formatter.format(calenderShowView.time)
             mAdapterDayCalendar.notifyDataSetChanged()
         }
         binding.recyclerViewDay.apply {
@@ -193,6 +195,8 @@ class CalenderDefaultType : EventCalenderManager {
     override fun setOnClickListener(callback: (Date) -> Unit) {
         onClickCalendar.observe(context as LifecycleOwner, androidx.lifecycle.Observer { date ->
             callback.invoke(date)
+            calenderShowView.time = date
+            binding.textDay.text = formatter.format(date)
         })
     }
 
@@ -203,6 +207,7 @@ class CalenderDefaultType : EventCalenderManager {
 
     override fun setCalender(calender: Date) {
         calenderShowView.time = calender
+        binding.textDay.text = formatter.format(calenderShowView.time)
     }
 
     override fun setStartDayOfWeek(startWeek: Int) {
@@ -227,8 +232,10 @@ class CalenderDefaultType : EventCalenderManager {
     }
 
     override fun setOnClickButtonBackAndNextCalender(callback: (Date) -> Unit) {
-        onClickButtonBackAndNextCalender.observe(context as LifecycleOwner,  androidx.lifecycle.Observer {
-            callback.invoke(it)
-        })
+        onClickButtonBackAndNextCalender.observe(
+            context as LifecycleOwner,
+            androidx.lifecycle.Observer {
+                callback.invoke(it)
+            })
     }
 }
