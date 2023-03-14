@@ -14,7 +14,7 @@ repositories {
   
   ```
  dependencies {
-	implementation 'com.github.asadej0951:Calendar-Custom-library:1.0.4'
+	implementation 'com.github.asadej0951:Calendar-Custom-library:1.1.0'
 	}
 ```
  #Maven
@@ -28,3 +28,16 @@ repositories {
 ```
 
 [![](https://jitpack.io/v/asadej0951/Calendar-Custom-library.svg)](https://jitpack.io/#asadej0951/Calendar-Custom-library)
+
+#Function xml example
+ ```
+    <com.example.calendar_custom_library.viewCalender.CalenderCustom
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:color_text_day_calender="#03A9F4"
+        app:color_text_name_day="@color/purple_200"
+        app:color_text_title="@color/orange_new"
+        app:color_mark_day="@color/black"
+        app:color_line_name_day="@color/orange_new"
+        app:color_text_mark_day_calender="@color/orange_new" />
+```
