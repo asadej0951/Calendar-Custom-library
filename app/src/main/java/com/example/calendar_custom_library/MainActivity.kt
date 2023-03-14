@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         }
         val x = findViewById<CalenderCustom>(R.id.test)
 
+        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
+
         x.setOnClickButtonBackAndNextCalender{
                         c.time = it
             Toast.makeText(this, "${c.get(Calendar.MONTH)}//${c.get(Calendar.YEAR)}.", Toast.LENGTH_SHORT).show()
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 //            c.time = date
 //            Toast.makeText(this, "${c.get(Calendar.YEAR)}.", Toast.LENGTH_SHORT).show()
 //        }
-//        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
+
     }
     private fun convertStringCalendar(dateTime: String): Date {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)

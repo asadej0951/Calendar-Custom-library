@@ -64,7 +64,6 @@ class CalenderDefaultType : EventCalenderManager {
         this.context = context
 
         // set through view
-        binding.textDay.text = formatter.format(calenderShowView.time)
         startWeek.clear()
         startWeek.addAll(
             mEventCalender.getStartWeek(startWeekCalender, context)
@@ -89,6 +88,8 @@ class CalenderDefaultType : EventCalenderManager {
         setDayCalenderColor(dayCalenderColor)
         setMarkTextDayColor(markTextDayColor)
 
+
+        binding.textDay.text = formatter.format(calenderShowView.time)
 
         binding.btnBack.setOnClickListener {
             calenderShowView.set(
@@ -197,6 +198,7 @@ class CalenderDefaultType : EventCalenderManager {
 
     override fun setFormatterCalender(simpleDateFormat: SimpleDateFormat) {
         formatter = simpleDateFormat
+        binding.textDay.text = formatter.format(calenderShowView.time)
     }
 
     override fun setCalender(calender: Date) {
