@@ -1,10 +1,10 @@
 package com.example.calendar_custom_library.event
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.calendar_custom_library.R
@@ -22,7 +22,8 @@ class EventCalender {
         layoutDay: LinearLayout,
         nameDay: ArrayList<String>,
         colorTextDay: Int,
-        sizeText: Float
+        sizeText: Float,
+        customFont: Typeface?
     ) {
         layoutDay.removeAllViews()
         for (i in 1..nameDay.size) {

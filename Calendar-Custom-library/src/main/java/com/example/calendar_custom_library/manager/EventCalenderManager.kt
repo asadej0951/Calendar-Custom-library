@@ -2,6 +2,7 @@ package com.example.calendar_custom_library.manager
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,6 +25,13 @@ interface EventCalenderManager {
         calender: Date,
         lineColor: Int,
         lineSize: Int,
+        statusSatSunColorBar: Boolean,
+        colorSatSunBar: ColorStateList,
+        drawableButtonBack: Drawable,
+        drawableButtonNext: Drawable,
+        buttonBackSize: Float,
+        buttonNextSize: Float,
+        fontCalender: String
     )
 
     fun setTitleColor(titleColor: Int)
@@ -42,8 +50,29 @@ interface EventCalenderManager {
     fun setCalender(calender: Date)
     fun setStartDayOfWeek(startWeek: Int)
 
-    fun setLineNameColor(color : Int)
-    fun setLineNameSize(size : Int)
+    fun setLineNameColor(color: Int)
+    fun setLineNameSize(size: Int)
 
     fun setOnClickButtonBackAndNextCalender(callback: ((Date) -> Unit))
+
+    fun setStatusSatSunColorBar(statusSatSunColorBar: Boolean)
+    fun setColorSatSunBar(colorSatSunBar: ColorStateList)
+
+    fun setDataCalender(mHashMap: ArrayList<HashMap<String, Any>>)
+
+    fun setDrawableButtonBack(drawableButtonBack: Drawable)
+
+    fun setDrawableButtonNext(drawableButtonNext: Drawable)
+
+    fun setButtonBackSize(buttonBackSize: Float)
+    fun setButtonNextSize(buttonNextSize: Float)
+
+    fun setColorBackgroundToday(colorBackgroundToday :Int)
+    fun setColorTextToday(colorTextToday :Int)
+
+    fun setFontCalender(fontCalender: String)
+
+
+
+
 }

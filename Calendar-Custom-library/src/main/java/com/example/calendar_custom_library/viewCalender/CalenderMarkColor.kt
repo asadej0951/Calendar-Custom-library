@@ -16,16 +16,16 @@ import com.example.calendar_custom_library.R
 import com.example.calendar_custom_library.databinding.CalenderCustomBinding
 import com.example.calendar_custom_library.event.EventCalender
 import com.example.calendar_custom_library.manager.EventCalenderManager
-import com.example.calendar_custom_library.viewCalender.adapter.AdapterDayCalendar
+import com.example.calendar_custom_library.viewCalender.adapter.AdapterDayCalenderColorStatus
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class CalenderDefaultType : EventCalenderManager {
+class CalenderMarkColor : EventCalenderManager {
+
     private lateinit var binding: CalenderCustomBinding
     private lateinit var mEventCalender: EventCalender
     private lateinit var context: Context
-    private lateinit var mAdapterDayCalendar: AdapterDayCalendar
+    private lateinit var mAdapterDayCalenderColorStatus: AdapterDayCalenderColorStatus
 
     private val calenderShowView = Calendar.getInstance()
     private val clickCalendar = Calendar.getInstance()
@@ -44,9 +44,9 @@ class CalenderDefaultType : EventCalenderManager {
     private var startWeekCalender = 1
     private var statusSatSunColorBar = true
     private var colorSatSunBar: ColorStateList? = null
-
     private var  customFont: Typeface? = null
 
+    private val mHashMap = ArrayList<HashMap<String, Any>>()
 
     override fun initViewCalender(
         context: Context,
@@ -73,6 +73,7 @@ class CalenderDefaultType : EventCalenderManager {
         buttonNextSize: Float,
         fontCalender: String
     ) {
+
         binding = CalenderCustomBinding.inflate(LayoutInflater.from(context), viewGroup, true)
         mEventCalender = EventCalender()
         this.context = context
@@ -83,7 +84,6 @@ class CalenderDefaultType : EventCalenderManager {
             mEventCalender.getStartWeek(startWeekCalender, context)
         )
         this.startWeekCalender = startWeekCalender
-        setFontCalender(fontCalender)
         setTitleSize(titleSize)
 
         setTitleColor(titleColor)
@@ -139,7 +139,8 @@ class CalenderDefaultType : EventCalenderManager {
             binding.layoutDay,
             startWeek,
             colorTextDay,
-            nameDaySize,customFont
+            nameDaySize,
+            customFont
         )
 
         setRecyclerViewDay()
@@ -148,7 +149,7 @@ class CalenderDefaultType : EventCalenderManager {
 
     private fun setRecyclerViewDay() {
         val dates = mEventCalender.setModelDate(calenderShowView, this.startWeekCalender)
-        mAdapterDayCalendar = AdapterDayCalendar(
+        mAdapterDayCalenderColorStatus = AdapterDayCalenderColorStatus(
             context,
             dates,
             this.dayCalenderSize,
@@ -159,6 +160,7 @@ class CalenderDefaultType : EventCalenderManager {
             this.markTextDayColor,
             this.statusSatSunColorBar,
             this.colorSatSunBar ?: context.resources.getColorStateList(R.color.bg),
+            mHashMap,
             customFont
         ) {
             onClickCalendar.value = it
@@ -166,13 +168,13 @@ class CalenderDefaultType : EventCalenderManager {
             calenderShowView.time = clickCalendar.time
             setRecyclerViewDay()
             binding.textDay.text = formatter.format(calenderShowView.time)
-            mAdapterDayCalendar.notifyDataSetChanged()
+            mAdapterDayCalenderColorStatus.notifyDataSetChanged()
         }
         binding.recyclerViewDay.apply {
             layoutManager =
                 GridLayoutManager(context, 7, GridLayoutManager.VERTICAL, false)
-            adapter = mAdapterDayCalendar
-            mAdapterDayCalendar.notifyDataSetChanged()
+            adapter = mAdapterDayCalenderColorStatus
+            mAdapterDayCalenderColorStatus.notifyDataSetChanged()
         }
     }
 
@@ -272,7 +274,9 @@ class CalenderDefaultType : EventCalenderManager {
         this.colorSatSunBar = colorSatSunBar
     }
 
-    override fun setDataCalender(mHashMap: java.util.ArrayList<HashMap<String, Any>>) {}
+    override fun setDataCalender(mHashMap: ArrayList<HashMap<String, Any>>) {
+        this.mHashMap.addAll(mHashMap)
+    }
     override fun setDrawableButtonBack(drawableButtonBack: Drawable) {
         binding.btnBack.setImageDrawable(drawableButtonBack)
     }
@@ -302,7 +306,6 @@ class CalenderDefaultType : EventCalenderManager {
     override fun setColorTextToday(colorTextToday: Int) {
 
     }
-
     override fun setFontCalender(fontCalender: String) {
         if (fontCalender != ""){
             customFont = Typeface.createFromAsset(context.assets, fontCalender)

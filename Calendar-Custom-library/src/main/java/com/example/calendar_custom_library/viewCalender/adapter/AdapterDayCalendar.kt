@@ -2,14 +2,16 @@ package com.example.calendar_custom_library.viewCalender.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calendar_custom_library.R
+import com.example.calendar_custom_library.event.EventAdapter
 import java.util.*
 
 class AdapterDayCalendar(
@@ -21,12 +23,17 @@ class AdapterDayCalendar(
     private val colorTextDay: Int,
     private val colorMarkDay: ColorStateList,
     private val colorTextMarkDay: Int,
+    private val statusSatSunColorBar: Boolean,
+    private val colorSatSunBar: ColorStateList,
+    private val customFont: Typeface?,
     private val callBack: ((Date) -> Unit)
 ) : RecyclerView.Adapter<ViewHolderItemDayCalendar>() {
+    private lateinit var mEventAdapter: EventAdapter
     private var date: Date? = null
+    private val dateToDay = Calendar.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderItemDayCalendar {
-
+        mEventAdapter = EventAdapter(mContext)
         return ViewHolderItemDayCalendar(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_day, parent, false
@@ -35,6 +42,11 @@ class AdapterDayCalendar(
     }
 
     override fun onBindViewHolder(holder: ViewHolderItemDayCalendar, position: Int) {
+        customFont?.let {
+            holder.textNameDay.typeface = customFont
+        }
+
+
         date = dayData[position]
         val dateSetModel = Calendar.getInstance()
         dateSetModel.time = date
@@ -45,20 +57,39 @@ class AdapterDayCalendar(
         holder.textNameDay.text = daySetModel.toString()
         holder.textNameDay.textSize = sizeText
         holder.textNameDay.setTextColor(
-            if (checkDayInMonth(
+            if (mEventAdapter.checkDayInMonth(
                     monthSetModel,
-                    yearSetModel
+                    yearSetModel, calenderShowView
                 )
             ) colorTextDay else mContext.resources.getColor(R.color.gray_arrow)
         )
 
-        if (checkToDay(daySetModel, monthSetModel, yearSetModel)) {
+
+        if (mEventAdapter.checkToDay(daySetModel, monthSetModel, yearSetModel, clickCalendar)) {
             holder.layoutDay.backgroundTintList = colorMarkDay
             holder.textNameDay.setTextColor(colorTextMarkDay)
         } else {
             holder.layoutDay.backgroundTintList =
                 mContext.resources.getColorStateList(R.color.clear_color)
         }
+
+        if (statusSatSunColorBar) {
+            mEventAdapter.checkSatAndSun(dateSetModel, position)?.let {
+                holder.itemView.background = it
+                holder.itemView.backgroundTintList = colorSatSunBar
+            }
+        }
+        if (mEventAdapter.checkDateToDay(
+                daySetModel,
+                monthSetModel,
+                yearSetModel,
+                dateToDay,
+                clickCalendar
+            )
+        ) {
+            holder.textNameDay.setTextColor(colorMarkDay)
+        }
+
         setEventClick(holder, position)
     }
 
@@ -68,25 +99,11 @@ class AdapterDayCalendar(
         }
     }
 
-    private fun checkToDay(daySetModel: Int, monthSetModel: Int, yearSetModel: Int): Boolean {
-        return clickCalendar.get(Calendar.DAY_OF_MONTH) == daySetModel && clickCalendar.get(
-            Calendar.MONTH
-        ) == monthSetModel && clickCalendar.get(Calendar.YEAR) == yearSetModel
-    }
-
-    private fun checkDayInMonth(monthSetModel: Int, yearSetModel: Int): Boolean {
-        return calenderShowView.get(Calendar.MONTH) == monthSetModel && calenderShowView.get(
-            Calendar.YEAR
-        ) == yearSetModel
-
-    }
-
     override fun getItemCount() = dayData.size
 }
 
 
 class ViewHolderItemDayCalendar(item: View) : RecyclerView.ViewHolder(item) {
     val layoutDay: LinearLayout = item.findViewById(R.id.layoutDay)
-    val textStatus: TextView = item.findViewById(R.id.textStatus)
     val textNameDay: TextView = item.findViewById(R.id.textNameDay)
 }

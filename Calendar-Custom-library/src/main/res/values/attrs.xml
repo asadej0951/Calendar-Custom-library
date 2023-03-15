@@ -14,6 +14,8 @@
 
         <attr name="theme_calender">
             <enum name="default_calender" value="1" />
+            <enum name="calender_mark_color" value="2" />
+            <enum name="detailed_calendar" value="3" />
         </attr>
 
         <attr name="start_week_calender">
@@ -32,9 +34,18 @@
             <enum name="gone" value="2" />
         </attr>
 
-        <attr name="color_line_name_day" format="reference|color"/>
-        <attr name="size_line_name_day" format="dimension"/>
+        <attr name="color_line_name_day" format="reference|color" />
+        <attr name="size_line_name_day" format="dimension" />
+
+        <attr name="status_sat_sun_color_bar" format="boolean" />
+        <attr name="color_sat_sun_bar" format="color|reference" />
 
 
+        <attr name="src_button_back" format="reference|color" />
+        <attr name="src_button_next" format="reference|color" />
+        <attr name="size_button_back" format="dimension" />
+        <attr name="size_button_next" format="dimension" />
+
+        <attr name="font_calender" format="string" />
     </declare-styleable>
 </resources>
