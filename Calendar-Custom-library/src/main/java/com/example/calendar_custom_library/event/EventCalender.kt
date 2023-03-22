@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.view.marginStart
 import com.example.calendar_custom_library.R
 import com.example.calendar_custom_library.viewCalender.adapter.AdapterDayCalendar
 import com.example.calendar_custom_library.viewCalender.objectCalender.ObjectCalender.MAX_CALENDAR_DAYS
