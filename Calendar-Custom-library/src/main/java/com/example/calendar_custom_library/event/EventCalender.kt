@@ -44,6 +44,33 @@ class EventCalender {
         }
     }
 
+    fun setDayStartLeft(
+        mContext: Context,
+        layoutDay: LinearLayout,
+        nameDay: ArrayList<String>,
+        colorTextDay: Int,
+        sizeText: Float,
+        customFont: Typeface?
+    ) {
+        layoutDay.removeAllViews()
+        for (i in 1..nameDay.size) {
+            val tvNameDay = AppCompatTextView(mContext)
+            val params = LinearLayout.LayoutParams(
+                LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            tvNameDay.gravity = Gravity.CENTER
+            tvNameDay.layoutParams = params
+            tvNameDay.text = nameDay[i - 1]
+            tvNameDay.textAlignment = TextView.TEXT_ALIGNMENT_TEXT_START
+            tvNameDay.setTextColor(colorTextDay)
+            tvNameDay.textSize = sizeText
+            layoutDay.addView(tvNameDay)
+
+        }
+    }
+
     fun getStartWeek(id: Int, context: Context): Array<out String> = when (id) {
         1 -> context.resources.getStringArray(R.array.day_week_mon)
         2 -> context.resources.getStringArray(R.array.day_week_tue)

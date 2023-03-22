@@ -1,17 +1,15 @@
 package com.example.calendar_custom_library
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.calendar_custom_library.viewCalender.CalenderCustom
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
+
 
 class MainActivity : AppCompatActivity() {
     var c= Calendar.getInstance()

@@ -138,7 +138,7 @@ class DetailedCalendar : EventCalenderManager {
             onClickButtonBackAndNextCalender.value = calenderShowView.time
         }
 
-        mEventCalender.setDayStart(
+        mEventCalender.setDayStartLeft(
             context,
             binding.layoutDay,
             startWeek,
@@ -242,7 +242,7 @@ class DetailedCalendar : EventCalenderManager {
     override fun setStartDayOfWeek(startWeek: Int) {
         this.startWeek.clear()
         this.startWeek.addAll(mEventCalender.getStartWeek(startWeek, context))
-        mEventCalender.setDayStart(
+        mEventCalender.setDayStartLeft(
             context,
             binding.layoutDay,
             this.startWeek,
