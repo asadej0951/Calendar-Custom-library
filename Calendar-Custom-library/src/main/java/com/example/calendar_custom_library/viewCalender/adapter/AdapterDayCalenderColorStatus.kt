@@ -109,6 +109,7 @@ class AdapterDayCalenderColorStatus(
                     if (textStatus != "") {
                         holder.statusDay.visibility = View.GONE
                         holder.textStatus.visibility = View.VISIBLE
+                        holder.textStatus.text = textStatus
                         holder.textStatus.setTextColor(colorStatus)
                     } else {
                         holder.statusDay.visibility = View.VISIBLE

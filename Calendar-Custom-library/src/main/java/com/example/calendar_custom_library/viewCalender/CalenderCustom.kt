@@ -89,7 +89,7 @@ class CalenderCustom : ConstraintLayout {
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).toFloat(),
                 getString(R.styleable.CalenderCustom_font_calender)?:""
-            )
+            ,getInteger(R.styleable.CalenderCustom_gravity_text_date,0))
             recycle()
         }
     }
@@ -121,7 +121,8 @@ class CalenderCustom : ConstraintLayout {
         drawableButtonNext: Drawable?,
         buttonBackSize: Float,
         buttonNextSize: Float,
-        fontCalender: String
+        fontCalender: String,
+        gravity : Int
     ) {
         manager = CalenderFactory.build(type)
         removeAllViews()
@@ -143,7 +144,8 @@ class CalenderCustom : ConstraintLayout {
             drawableButtonNext ?: resources.getDrawable(R.drawable.baseline_arrow_forward_ios_24),
             buttonBackSize,
             buttonNextSize,
-            fontCalender
+            fontCalender,
+            gravity
         )
     }
 

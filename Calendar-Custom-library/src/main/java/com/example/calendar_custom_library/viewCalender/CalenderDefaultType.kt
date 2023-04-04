@@ -71,7 +71,8 @@ class CalenderDefaultType : EventCalenderManager {
         drawable1: Drawable,
         buttonBackSize: Float,
         buttonNextSize: Float,
-        fontCalender: String
+        fontCalender: String,
+        gravity : Int
     ) {
         binding = CalenderCustomBinding.inflate(LayoutInflater.from(context), viewGroup, true)
         mEventCalender = EventCalender()
@@ -108,7 +109,7 @@ class CalenderDefaultType : EventCalenderManager {
         setMarkDayColor(markDayColor)
         setDayCalenderColor(dayCalenderColor)
         setMarkTextDayColor(markTextDayColor)
-
+        mEventCalender.setGravity(binding.layoutNameDay,gravity)
 
         binding.btnBack.setOnClickListener {
             calenderShowView.set(

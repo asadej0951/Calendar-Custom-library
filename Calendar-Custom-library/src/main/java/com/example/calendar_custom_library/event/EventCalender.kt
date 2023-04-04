@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.view.marginStart
 import com.example.calendar_custom_library.R
 import com.example.calendar_custom_library.viewCalender.adapter.AdapterDayCalendar
 import com.example.calendar_custom_library.viewCalender.objectCalender.ObjectCalender.MAX_CALENDAR_DAYS
@@ -42,6 +41,15 @@ class EventCalender {
             tvNameDay.textSize = sizeText
             layoutDay.addView(tvNameDay)
 
+        }
+    }
+
+    fun setGravity(layoutNameDay: LinearLayoutCompat, gravity: Int) {
+        layoutNameDay.gravity =  Gravity.CENTER_VERTICAL
+        layoutNameDay.gravity = when (gravity) {
+            1 -> Gravity.START
+            2 -> Gravity.END
+            else -> Gravity.CENTER
         }
     }
 
@@ -122,7 +130,7 @@ class EventCalender {
             else -> 2
         }
 
-     fun getDayInMonth(
+    fun getDayInMonth(
         statusClick: Boolean,
         calender: Calendar
     ): Int {

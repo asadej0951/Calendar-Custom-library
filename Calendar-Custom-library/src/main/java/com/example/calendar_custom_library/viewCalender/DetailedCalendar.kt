@@ -74,7 +74,8 @@ class DetailedCalendar : EventCalenderManager {
         drawableButtonNext: Drawable,
         buttonBackSize: Float,
         buttonNextSize: Float,
-        fontCalender: String
+        fontCalender: String,
+        gravity : Int
     ) {
 
         binding = CalenderDerailedBinding.inflate(LayoutInflater.from(context), viewGroup, true)
@@ -112,7 +113,7 @@ class DetailedCalendar : EventCalenderManager {
         setMarkDayColor(markDayColor)
         setDayCalenderColor(dayCalenderColor)
         setMarkTextDayColor(markTextDayColor)
-
+        mEventCalender.setGravity(binding.layoutNameDay,gravity)
 
         binding.btnBack.setOnClickListener {
             calenderShowView.set(
@@ -278,7 +279,9 @@ class DetailedCalendar : EventCalenderManager {
     }
 
     override fun setDataCalender(mHashMap: java.util.ArrayList<HashMap<String, Any>>) {
+        this.mHashMap.clear()
         this.mHashMap.addAll(mHashMap)
+        setRecyclerViewDay()
     }
 
     override fun setDrawableButtonBack(drawableButtonBack: Drawable) {

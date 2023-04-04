@@ -24,14 +24,17 @@ class MainActivity : AppCompatActivity() {
         val a : HashMap<String,Any> = java.util.HashMap()
         val b : HashMap<String,Any> = java.util.HashMap()
         val c : HashMap<String,Any> = java.util.HashMap()
-        a["test"] = convertStringCalendar("12 03 2023")
-        a["double"] = "เต็ม"
+        a["test"] = convertStringCalendar("12 04 2023")
+        a["double"] = resources.getColorStateList(R.color.orange_new)
 
-        b["test"] = convertStringCalendar("17 03 2023")
-        b["double"] = "1 คิว"
+        b["test"] = convertStringCalendar("17 04 2023")
+        b["double"] = resources.getColorStateList(R.color.orange_new)
 
-        c["test"] = convertStringCalendar("15 03 2023")
-        c["double"] = "1 คิว"
+        c["test"] = convertStringCalendar("15 04 2023")
+        c["double"] = resources.getColorStateList(R.color.orange_new)
+
+
+
 
         test.add(a)
         test.add(b)
@@ -50,6 +53,20 @@ class MainActivity : AppCompatActivity() {
         x.setDataCalender(test)
         x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
 
+        x.setOnClickButtonBackAndNextCalender {
+            test.clear()
+            val b : HashMap<String,Any> = java.util.HashMap()
+            val c : HashMap<String,Any> = java.util.HashMap()
+            a["test"] = convertStringCalendar("02 05 2023")
+            a["double"] = resources.getColorStateList(R.color.orange_new)
+            c["test"] = convertStringCalendar("07 05 2023")
+            c["double"] = resources.getColorStateList(R.color.orange_new)
+            c["sss"] = "9999"
+            test.add(a)
+            test.add(c)
+            x.setDataCalender(test)
+        }
+
 //        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
 //        var formatter = SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH"))
 //        x.setOnClickCalender {
@@ -60,6 +77,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
     }
+
     private fun convertStringCalendar(dateTime: String): Date {
         val sdf = SimpleDateFormat("dd MM yyyy", Locale.ENGLISH)
         return  sdf.parse(dateTime)

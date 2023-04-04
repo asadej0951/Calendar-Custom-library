@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,7 @@ class CalenderMarkColor : EventCalenderManager {
     private var startWeekCalender = 1
     private var statusSatSunColorBar = true
     private var colorSatSunBar: ColorStateList? = null
-    private var  customFont: Typeface? = null
+    private var customFont: Typeface? = null
 
     private val mHashMap = ArrayList<HashMap<String, Any>>()
 
@@ -71,7 +72,8 @@ class CalenderMarkColor : EventCalenderManager {
         drawable1: Drawable,
         buttonBackSize: Float,
         buttonNextSize: Float,
-        fontCalender: String
+        fontCalender: String,
+        gravity: Int
     ) {
 
         binding = CalenderCustomBinding.inflate(LayoutInflater.from(context), viewGroup, true)
@@ -109,6 +111,7 @@ class CalenderMarkColor : EventCalenderManager {
         setDayCalenderColor(dayCalenderColor)
         setMarkTextDayColor(markTextDayColor)
 
+        mEventCalender.setGravity(binding.layoutNameDay,gravity)
 
         binding.btnBack.setOnClickListener {
             calenderShowView.set(
@@ -149,6 +152,9 @@ class CalenderMarkColor : EventCalenderManager {
 
     private fun setRecyclerViewDay() {
         val dates = mEventCalender.setModelDate(calenderShowView, this.startWeekCalender)
+
+        Log.i("checkDateHashMap", mHashMap.toString())
+
         mAdapterDayCalenderColorStatus = AdapterDayCalenderColorStatus(
             context,
             dates,
@@ -275,8 +281,11 @@ class CalenderMarkColor : EventCalenderManager {
     }
 
     override fun setDataCalender(mHashMap: ArrayList<HashMap<String, Any>>) {
+        this.mHashMap.clear()
         this.mHashMap.addAll(mHashMap)
+        setRecyclerViewDay()
     }
+
     override fun setDrawableButtonBack(drawableButtonBack: Drawable) {
         binding.btnBack.setImageDrawable(drawableButtonBack)
     }
@@ -306,8 +315,9 @@ class CalenderMarkColor : EventCalenderManager {
     override fun setColorTextToday(colorTextToday: Int) {
 
     }
+
     override fun setFontCalender(fontCalender: String) {
-        if (fontCalender != ""){
+        if (fontCalender != "") {
             customFont = Typeface.createFromAsset(context.assets, fontCalender)
             binding.textDay.typeface = customFont
         }

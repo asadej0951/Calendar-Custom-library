@@ -31,7 +31,8 @@ interface EventCalenderManager {
         drawableButtonNext: Drawable,
         buttonBackSize: Float,
         buttonNextSize: Float,
-        fontCalender: String
+        fontCalender: String,
+        gravity : Int
     )
 
     fun setTitleColor(titleColor: Int)
