@@ -38,6 +38,7 @@ class AdapterDayCalenderColorStatus(
     private var colorStatus: ColorStateList? = null
     private var textStatus = ""
     private var colorTextDayStatus: ColorStateList? = null
+    private var statusClickDay: Boolean? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -119,8 +120,13 @@ class AdapterDayCalenderColorStatus(
                     colorTextDayStatus?.let {
                         holder.textNameDay.setTextColor(it)
                     }
+                    statusClickDay?.let {
+                        holder.itemView.isEnabled = it
+                        holder.textNameDay.setTextColor(mContext.resources.getColor(R.color.gray_arrow))
+                    }
                 }
 
+                this.statusClickDay = null
                 this.dateHashMap = null
                 this.colorStatus = null
                 this.textStatus = ""
@@ -158,6 +164,9 @@ class AdapterDayCalenderColorStatus(
             }
             is String -> {
                 textStatus = data[key] as String
+            }
+            is Boolean -> {
+                statusClickDay = data[key] as Boolean
             }
         }
     }
