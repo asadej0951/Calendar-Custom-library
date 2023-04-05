@@ -13,6 +13,10 @@ import com.example.calendar_custom_library.R
 import com.example.calendar_custom_library.viewCalender.adapter.AdapterDayCalendar
 import com.example.calendar_custom_library.viewCalender.objectCalender.ObjectCalender.MAX_CALENDAR_DAYS
 import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.chrono.ThaiBuddhistChronology
+import java.time.chrono.ThaiBuddhistDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -60,9 +64,22 @@ class EventCalender {
         }
     }
 
-    fun formatCalenderTH(formatter: SimpleDateFormat, calenderShowView: Calendar) : String {
-        val newYear = calenderShowView[Calendar.YEAR] + 543
-       return "${formatter.format(calenderShowView.time)}$newYear"
+    fun calenderToThaiCalendar(calenderShowView: Calendar): ThaiBuddhistDate {
+        return ThaiBuddhistChronology.INSTANCE.date(
+            calenderShowView.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        )
+    }
+
+    fun checkLocale(
+        formatter: SimpleDateFormat,
+        formatterTh: DateTimeFormatter,
+        locale: Locale,
+        calenderShowView: Calendar,
+        thaiCalendar: ThaiBuddhistDate
+    ): String {
+        return if (locale.language == "th") formatterTh.format(thaiCalendar) else formatter.format(
+            calenderShowView.time
+        )
     }
 
     fun setGravity(layoutNameDay: LinearLayoutCompat, gravity: Int) {

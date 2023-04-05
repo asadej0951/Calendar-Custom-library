@@ -90,7 +90,8 @@ class CalenderCustom : ConstraintLayout {
                 ).toFloat(),
                 getString(R.styleable.CalenderCustom_font_calender) ?: "",
                 getInteger(R.styleable.CalenderCustom_gravity_text_date, 0),
-                getBoolean(R.styleable.CalenderCustom_open_mark, false)
+                getBoolean(R.styleable.CalenderCustom_open_mark, false),
+                getInt(R.styleable.CalenderCustom_visibility_button, 0)
             )
             recycle()
         }
@@ -125,7 +126,8 @@ class CalenderCustom : ConstraintLayout {
         buttonNextSize: Float,
         fontCalender: String,
         gravity: Int,
-        statusOpenMark: Boolean
+        statusOpenMark: Boolean,
+        visibilityButton: Int
     ) {
         manager = CalenderFactory.build(type)
         removeAllViews()
@@ -148,7 +150,8 @@ class CalenderCustom : ConstraintLayout {
             buttonBackSize,
             buttonNextSize,
             fontCalender,
-            gravity, statusOpenMark
+            gravity, statusOpenMark,
+            visibilityButton
         )
     }
 

@@ -34,6 +34,12 @@
             <enum name="gone" value="2" />
         </attr>
 
+        <attr name="visibility_button">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+
         <attr name="color_line_name_day" format="reference|color" />
         <attr name="size_line_name_day" format="dimension" />
 

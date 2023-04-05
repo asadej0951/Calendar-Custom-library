@@ -32,8 +32,9 @@ interface EventCalenderManager {
         buttonBackSize: Float,
         buttonNextSize: Float,
         fontCalender: String,
-        gravity : Int,
-        statusOpenMark : Boolean
+        gravity: Int,
+        statusOpenMark: Boolean,
+        visibilityButton: Int
     )
 
     fun setTitleColor(titleColor: Int)

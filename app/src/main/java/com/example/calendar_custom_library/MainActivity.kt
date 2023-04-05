@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         x.setCalender(mCalendar.time)
         x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
 
-        x.setFormatterCalender("dd MMMM yyyy", Locale("th", "TH"))
+//        x.setFormatterCalender("dd MMMM yyyy", Locale.US)
 
         x.setOnClickButtonBackAndNextCalender {
             test.clear()
