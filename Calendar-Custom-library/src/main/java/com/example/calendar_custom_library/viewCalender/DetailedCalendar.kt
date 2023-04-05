@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,7 @@ class DetailedCalendar : EventCalenderManager {
     private val onClickButtonBackAndNextCalender = MutableLiveData<Date>()
     private var formatter = SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH"))
     private var  customFont: Typeface? = null
+    private var locale = Locale("th")
 
 
     private val startWeek = ArrayList<String>()
@@ -122,7 +124,7 @@ class DetailedCalendar : EventCalenderManager {
                 calenderShowView.get(Calendar.MONTH) - 1,
                 mEventCalender.getDayInMonth(false, calenderShowView)
             )
-            binding.textDay.text = formatter.format(calenderShowView.time)
+            binding.textDay.text =  if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
             clickCalendar.time = calenderShowView.time
             setRecyclerViewDay()
             onClickButtonBackAndNextCalender.value = calenderShowView.time
@@ -134,7 +136,7 @@ class DetailedCalendar : EventCalenderManager {
                 calenderShowView.get(Calendar.MONTH) + 1,
                 mEventCalender.getDayInMonth(true, calenderShowView)
             )
-            binding.textDay.text = formatter.format(calenderShowView.time)
+            binding.textDay.text =  if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
             clickCalendar.time = calenderShowView.time
             setRecyclerViewDay()
             onClickButtonBackAndNextCalender.value = calenderShowView.time
@@ -172,7 +174,7 @@ class DetailedCalendar : EventCalenderManager {
             clickCalendar.time = it
             calenderShowView.time = clickCalendar.time
             setRecyclerViewDay()
-            binding.textDay.text = formatter.format(calenderShowView.time)
+            binding.textDay.text =  if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
             mAdapterDetailedCalendar.notifyDataSetChanged()
         }
         binding.recyclerViewDay.apply {
@@ -227,18 +229,30 @@ class DetailedCalendar : EventCalenderManager {
         onClickCalendar.observe(context as LifecycleOwner, androidx.lifecycle.Observer { date ->
             callback.invoke(date)
             calenderShowView.time = date
-            binding.textDay.text = formatter.format(date)
+            binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
         })
     }
 
     override fun setFormatterCalender(simpleDateFormat: SimpleDateFormat) {
         formatter = simpleDateFormat
-        binding.textDay.text = formatter.format(calenderShowView.time)
+        binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
+    }
+
+    override fun setFormatterCalender(format: String, locale: Locale) {
+        this.locale = locale
+        if (locale.language == "th") {
+            val newFormat = format.replace("yyyy", "")
+            formatter = SimpleDateFormat(newFormat, locale)
+            binding.textDay.text = mEventCalender.formatCalenderTH(formatter,calenderShowView)
+        } else {
+            formatter = SimpleDateFormat(format, locale)
+            binding.textDay.text = formatter.format(calenderShowView.time)
+        }
     }
 
     override fun setCalender(calender: Date) {
         calenderShowView.time = calender
-        binding.textDay.text = formatter.format(calenderShowView.time)
+        binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
         setRecyclerViewDay()
     }
 

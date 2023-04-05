@@ -34,7 +34,7 @@ class CalenderMarkColor : EventCalenderManager {
     private val onClickCalendar = MutableLiveData<Date>()
     private val onClickButtonBackAndNextCalender = MutableLiveData<Date>()
     private var formatter = SimpleDateFormat("MMMM yyyy", Locale("th", "TH"))
-
+    private var locale = Locale("th")
 
     private val startWeek = ArrayList<String>()
     private var colorTextDay = 0
@@ -126,7 +126,7 @@ class CalenderMarkColor : EventCalenderManager {
                 calenderShowView.get(Calendar.MONTH) - 1,
                 mEventCalender.getDayInMonth(false, calenderShowView)
             )
-            binding.textDay.text = formatter.format(calenderShowView.time)
+            binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
             clickCalendar?.let {
                 it.time = calenderShowView.time
             }
@@ -141,7 +141,7 @@ class CalenderMarkColor : EventCalenderManager {
                 calenderShowView.get(Calendar.MONTH) + 1,
                 mEventCalender.getDayInMonth(true, calenderShowView)
             )
-            binding.textDay.text = formatter.format(calenderShowView.time)
+            binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
             clickCalendar?.let {
                 it.time = calenderShowView.time
             }
@@ -189,7 +189,7 @@ class CalenderMarkColor : EventCalenderManager {
             clickCalendar = calenderClick
             calenderShowView.time = calenderClick.time
             setRecyclerViewDay()
-            binding.textDay.text = formatter.format(calenderShowView.time)
+            binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
             mAdapterDayCalenderColorStatus.notifyDataSetChanged()
         }
         binding.recyclerViewDay.apply {
@@ -244,18 +244,30 @@ class CalenderMarkColor : EventCalenderManager {
         onClickCalendar.observe(context as LifecycleOwner, androidx.lifecycle.Observer { date ->
             callback.invoke(date)
             calenderShowView.time = date
-            binding.textDay.text = formatter.format(date)
+            binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
         })
     }
 
     override fun setFormatterCalender(simpleDateFormat: SimpleDateFormat) {
         formatter = simpleDateFormat
-        binding.textDay.text = formatter.format(calenderShowView.time)
+        binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
+    }
+
+    override fun setFormatterCalender(format: String, locale: Locale) {
+        this.locale = locale
+        if (locale.language == "th") {
+            val newFormat = format.replace("yyyy", "")
+            formatter = SimpleDateFormat(newFormat, locale)
+            binding.textDay.text = mEventCalender.formatCalenderTH(formatter,calenderShowView)
+        } else {
+            formatter = SimpleDateFormat(format, locale)
+            binding.textDay.text = formatter.format(calenderShowView.time)
+        }
     }
 
     override fun setCalender(calender: Date) {
         calenderShowView.time = calender
-        binding.textDay.text = formatter.format(calenderShowView.time)
+        binding.textDay.text = if (this.locale.language == "th") mEventCalender.formatCalenderTH(formatter,calenderShowView) else formatter.format(calenderShowView.time)
         setRecyclerViewDay()
     }
 

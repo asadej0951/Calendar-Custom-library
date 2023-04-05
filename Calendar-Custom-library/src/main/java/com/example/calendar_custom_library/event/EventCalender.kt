@@ -12,6 +12,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.calendar_custom_library.R
 import com.example.calendar_custom_library.viewCalender.adapter.AdapterDayCalendar
 import com.example.calendar_custom_library.viewCalender.objectCalender.ObjectCalender.MAX_CALENDAR_DAYS
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -57,6 +58,11 @@ class EventCalender {
 
             layoutDay.addView(tvNameDay)
         }
+    }
+
+    fun formatCalenderTH(formatter: SimpleDateFormat, calenderShowView: Calendar) : String {
+        val newYear = calenderShowView[Calendar.YEAR] + 543
+       return "${formatter.format(calenderShowView.time)}$newYear"
     }
 
     fun setGravity(layoutNameDay: LinearLayoutCompat, gravity: Int) {

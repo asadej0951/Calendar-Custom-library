@@ -12,19 +12,20 @@ import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {
-    var mCalendar= Calendar.getInstance()
-    val test = ArrayList<HashMap<String,Any> >()
+    private var mCalendar = Calendar.getInstance()
+    private val test = ArrayList<HashMap<String, Any>>()
+    private val f = SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val thaiCalendar = Calendar.getInstance(Locale("th", "TH"))
-        Log.i("checkDate",thaiCalendar.get(Calendar.YEAR).toString())
-        mCalendar.set(2023,7,15)
+        Log.i("checkDate", thaiCalendar.get(Calendar.YEAR).toString())
+        mCalendar.set(2023, 7, 15)
 
-        val a : HashMap<String,Any> = java.util.HashMap()
-        val b : HashMap<String,Any> = java.util.HashMap()
-        val c : HashMap<String,Any> = java.util.HashMap()
+        val a: HashMap<String, Any> = java.util.HashMap()
+        val b: HashMap<String, Any> = java.util.HashMap()
+        val c: HashMap<String, Any> = java.util.HashMap()
         a["test"] = convertStringCalendar("12 04 2023")
         a["double"] = resources.getColorStateList(R.color.orange_new)
 
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         test.add(c)
 
 
-
         val t = findViewById<TextView>(R.id.text01)
         t.setOnClickListener {
 
@@ -55,10 +55,12 @@ class MainActivity : AppCompatActivity() {
         x.setCalender(mCalendar.time)
         x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
 
+        x.setFormatterCalender("dd MMMM yyyy", Locale("th", "TH"))
+
         x.setOnClickButtonBackAndNextCalender {
             test.clear()
-            val b : HashMap<String,Any> = java.util.HashMap()
-            val c : HashMap<String,Any> = java.util.HashMap()
+            val b: HashMap<String, Any> = java.util.HashMap()
+            val c: HashMap<String, Any> = java.util.HashMap()
             a["test"] = convertStringCalendar("02 05 2023")
             a["double"] = resources.getColorStateList(R.color.orange_new)
             c["test"] = convertStringCalendar("07 05 2023")
@@ -67,6 +69,9 @@ class MainActivity : AppCompatActivity() {
             test.add(a)
             test.add(c)
             x.setDataCalender(test)
+        }
+        x.setOnClickCalender {
+            Log.i("checkDateTime", f.format(it))
         }
 
 //        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
@@ -82,6 +87,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun convertStringCalendar(dateTime: String): Date {
         val sdf = SimpleDateFormat("dd MM yyyy", Locale.ENGLISH)
-        return  sdf.parse(dateTime)
+        return sdf.parse(dateTime)
     }
 }

@@ -148,7 +148,7 @@ class CalenderCustom : ConstraintLayout {
             buttonBackSize,
             buttonNextSize,
             fontCalender,
-            gravity,statusOpenMark
+            gravity, statusOpenMark
         )
     }
 
@@ -202,6 +202,7 @@ class CalenderCustom : ConstraintLayout {
     fun setMarkTextDayColor(markTextDayColor: Int) {
         manager.setMarkTextDayColor(markTextDayColor)
     }
+
     fun setColorBackgroundToday(colorBackgroundToday: Int) {
         manager.setColorBackgroundToday(colorBackgroundToday)
     }
@@ -229,6 +230,10 @@ class CalenderCustom : ConstraintLayout {
         manager.setFormatterCalender(simpleDateFormat)
     }
 
+    fun setFormatterCalender(format: String, locale: Locale) {
+        manager.setFormatterCalender(format, locale)
+    }
+
     fun setLineNameColor(color: Int) {
         manager.setLineNameColor(color)
     }
@@ -240,5 +245,6 @@ class CalenderCustom : ConstraintLayout {
     fun setVisibilityLineNameDay(visibility: Int) {
         manager.setVisibilityLineNameDay(visibility)
     }
+
 
 }

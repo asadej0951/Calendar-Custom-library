@@ -49,6 +49,8 @@ interface EventCalenderManager {
 
     fun setOnClickListener(callback: ((Date) -> Unit))
     fun setFormatterCalender(simpleDateFormat: SimpleDateFormat)
+
+    fun setFormatterCalender(format: String, locale: Locale)
     fun setCalender(calender: Date)
     fun setStartDayOfWeek(startWeek: Int)
 
