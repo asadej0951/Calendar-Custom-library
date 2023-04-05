@@ -12,7 +12,7 @@ import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {
-    var c= Calendar.getInstance()
+    var mCalendar= Calendar.getInstance()
     val test = ArrayList<HashMap<String,Any> >()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val thaiCalendar = Calendar.getInstance(Locale("th", "TH"))
         Log.i("checkDate",thaiCalendar.get(Calendar.YEAR).toString())
+        mCalendar.set(2023,7,15)
 
         val a : HashMap<String,Any> = java.util.HashMap()
         val b : HashMap<String,Any> = java.util.HashMap()
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         x.setColorBackgroundToday(resources.getColor(R.color.purple_200))
         x.setColorTextToday(resources.getColor(R.color.purple_500))
         x.setDataCalender(test)
+        x.setCalender(mCalendar.time)
         x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
 
         x.setOnClickButtonBackAndNextCalender {

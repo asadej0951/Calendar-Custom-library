@@ -25,14 +25,15 @@ interface EventCalenderManager {
         calender: Date,
         lineColor: Int,
         lineSize: Int,
-        statusSatSunColorBar: Boolean,
+        statusSatSunColorBar: Int,
         colorSatSunBar: ColorStateList,
         drawableButtonBack: Drawable,
         drawableButtonNext: Drawable,
         buttonBackSize: Float,
         buttonNextSize: Float,
         fontCalender: String,
-        gravity : Int
+        gravity : Int,
+        statusOpenMark : Boolean
     )
 
     fun setTitleColor(titleColor: Int)
@@ -56,7 +57,7 @@ interface EventCalenderManager {
 
     fun setOnClickButtonBackAndNextCalender(callback: ((Date) -> Unit))
 
-    fun setStatusSatSunColorBar(statusSatSunColorBar: Boolean)
+    fun setStatusSatSunColorBar(statusSatSunColorBar: Int)
     fun setColorSatSunBar(colorSatSunBar: ColorStateList)
 
     fun setDataCalender(mHashMap: ArrayList<HashMap<String, Any>>)

@@ -3,7 +3,7 @@ package com.example.calendar_custom_library.viewCalender.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +19,11 @@ class AdapterDayCalendar(
     private val dayData: MutableList<Date>,
     private val sizeText: Float,
     private val calenderShowView: Calendar,
-    private val clickCalendar: Calendar,
+    private val clickCalendar: Calendar?,
     private val colorTextDay: Int,
     private val colorMarkDay: ColorStateList,
     private val colorTextMarkDay: Int,
-    private val statusSatSunColorBar: Boolean,
+    private val statusSatSunColorBar: Int,
     private val colorSatSunBar: ColorStateList,
     private val customFont: Typeface?,
     private val callBack: ((Date) -> Unit)
@@ -55,7 +55,7 @@ class AdapterDayCalendar(
         val yearSetModel = dateSetModel[Calendar.YEAR]
 
         holder.textNameDay.text = daySetModel.toString()
-        holder.textNameDay.textSize = sizeText
+        holder.textNameDay.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText)
         holder.textNameDay.setTextColor(
             if (mEventAdapter.checkDayInMonth(
                     monthSetModel,
@@ -65,7 +65,7 @@ class AdapterDayCalendar(
         )
 
 
-        if (mEventAdapter.checkToDay(daySetModel, monthSetModel, yearSetModel, clickCalendar)) {
+        if (clickCalendar != null && mEventAdapter.checkDayClick(daySetModel, monthSetModel, yearSetModel, clickCalendar)) {
             holder.layoutDay.backgroundTintList = colorMarkDay
             holder.textNameDay.setTextColor(colorTextMarkDay)
         } else {
@@ -73,8 +73,8 @@ class AdapterDayCalendar(
                 mContext.resources.getColorStateList(R.color.clear_color)
         }
 
-        if (statusSatSunColorBar) {
-            mEventAdapter.checkSatAndSun(dateSetModel, position)?.let {
+        if (statusSatSunColorBar!=2) {
+            mEventAdapter.checkSatAndSun(dateSetModel, position, statusSatSunColorBar)?.let {
                 holder.itemView.background = it
                 holder.itemView.backgroundTintList = colorSatSunBar
             }

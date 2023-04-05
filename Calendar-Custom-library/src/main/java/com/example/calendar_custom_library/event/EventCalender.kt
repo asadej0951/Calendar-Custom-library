@@ -1,7 +1,9 @@
 package com.example.calendar_custom_library.event
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.util.TypedValue
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -23,7 +25,9 @@ class EventCalender {
         nameDay: ArrayList<String>,
         colorTextDay: Int,
         sizeText: Float,
-        customFont: Typeface?
+        customFont: Typeface?,
+        statusSatSunColorBar: Int,
+        colorStateList: ColorStateList
     ) {
         layoutDay.removeAllViews()
         for (i in 1..nameDay.size) {
@@ -38,14 +42,25 @@ class EventCalender {
             tvNameDay.text = nameDay[i - 1]
             tvNameDay.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
             tvNameDay.setTextColor(colorTextDay)
-            tvNameDay.textSize = sizeText
-            layoutDay.addView(tvNameDay)
+            tvNameDay.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText)
+            if (statusSatSunColorBar == 1) {
+                tvNameDay.background =
+                    if (nameDay[i - 1] == "ส" || nameDay[i - 1] == "Sat")
+                        mContext.resources.getDrawable(
+                            R.drawable.custom_radius_top_bottom_left_13
+                        ) else if (nameDay[i - 1] == "อา" || nameDay[i - 1] == "Sun") mContext.resources.getDrawable(
+                        R.drawable.custom_radius_top_bottom_rigth_13
+                    ) else null
 
+                tvNameDay.backgroundTintList = colorStateList
+            }
+
+            layoutDay.addView(tvNameDay)
         }
     }
 
     fun setGravity(layoutNameDay: LinearLayoutCompat, gravity: Int) {
-        layoutNameDay.gravity =  Gravity.CENTER_VERTICAL
+        layoutNameDay.gravity = Gravity.CENTER_VERTICAL
         layoutNameDay.gravity = when (gravity) {
             1 -> Gravity.START
             2 -> Gravity.END
@@ -74,7 +89,7 @@ class EventCalender {
             tvNameDay.text = nameDay[i - 1]
             tvNameDay.textAlignment = TextView.TEXT_ALIGNMENT_TEXT_START
             tvNameDay.setTextColor(colorTextDay)
-            tvNameDay.textSize = sizeText
+            tvNameDay.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText)
             layoutDay.addView(tvNameDay)
 
         }

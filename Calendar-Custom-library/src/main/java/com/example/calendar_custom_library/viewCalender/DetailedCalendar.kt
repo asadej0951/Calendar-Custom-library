@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,7 @@ class DetailedCalendar : EventCalenderManager {
     private var markTextDayColor = 0
     private var dayCalenderSize = 0f
     private var startWeekCalender = 1
-    private var statusSatSunColorBar = true
+    private var statusSatSunColorBar = 0
     private var colorSatSunBar: ColorStateList? = null
 
     private var colorBackgroundToday: Int? = null
@@ -68,14 +69,15 @@ class DetailedCalendar : EventCalenderManager {
         calender: Date,
         lineColor: Int,
         lineSize: Int,
-        statusSatSunColorBar: Boolean,
+        statusSatSunColorBar: Int,
         colorSatSunBar: ColorStateList,
         drawableButtonBack: Drawable,
         drawableButtonNext: Drawable,
         buttonBackSize: Float,
         buttonNextSize: Float,
         fontCalender: String,
-        gravity : Int
+        gravity : Int,
+        statusOpenMark : Boolean
     ) {
 
         binding = CalenderDerailedBinding.inflate(LayoutInflater.from(context), viewGroup, true)
@@ -106,7 +108,6 @@ class DetailedCalendar : EventCalenderManager {
         setNameDayColor(nameDayColor)
         setNameDaySize(nameDaySize)
         setFormatterCalender(simpleDateFormat)
-        setCalender(calender)
 
         // set through Adapter
         setDayCalenderSize(dayCalenderSize)
@@ -211,7 +212,7 @@ class DetailedCalendar : EventCalenderManager {
     }
 
     override fun setTitleSize(titleSize: Float) {
-        binding.textDay.textSize = titleSize
+        binding.textDay.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleSize)
     }
 
     override fun setNameDaySize(nameDaySize: Float) {
@@ -238,6 +239,7 @@ class DetailedCalendar : EventCalenderManager {
     override fun setCalender(calender: Date) {
         calenderShowView.time = calender
         binding.textDay.text = formatter.format(calenderShowView.time)
+        setRecyclerViewDay()
     }
 
     override fun setStartDayOfWeek(startWeek: Int) {
@@ -270,7 +272,7 @@ class DetailedCalendar : EventCalenderManager {
             })
     }
 
-    override fun setStatusSatSunColorBar(statusSatSunColorBar: Boolean) {
+    override fun setStatusSatSunColorBar(statusSatSunColorBar: Int) {
         this.statusSatSunColorBar = statusSatSunColorBar
     }
 

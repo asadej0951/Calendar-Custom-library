@@ -28,7 +28,7 @@ class CalenderDefaultType : EventCalenderManager {
     private lateinit var mAdapterDayCalendar: AdapterDayCalendar
 
     private val calenderShowView = Calendar.getInstance()
-    private val clickCalendar = Calendar.getInstance()
+    private var clickCalendar: Calendar? = null
     private val onClickCalendar = MutableLiveData<Date>()
     private val onClickButtonBackAndNextCalender = MutableLiveData<Date>()
     private var formatter = SimpleDateFormat("MMMM yyyy", Locale("th", "TH"))
@@ -42,10 +42,10 @@ class CalenderDefaultType : EventCalenderManager {
     private var markTextDayColor = 0
     private var dayCalenderSize = 0f
     private var startWeekCalender = 1
-    private var statusSatSunColorBar = true
+    private var statusSatSunColorBar = 0
     private var colorSatSunBar: ColorStateList? = null
 
-    private var  customFont: Typeface? = null
+    private var customFont: Typeface? = null
 
 
     override fun initViewCalender(
@@ -65,14 +65,15 @@ class CalenderDefaultType : EventCalenderManager {
         calender: Date,
         lineColor: Int,
         lineSize: Int,
-        statusSatSunColorBar: Boolean,
+        statusSatSunColorBar: Int,
         colorSatSunBar: ColorStateList,
         drawable: Drawable,
         drawable1: Drawable,
         buttonBackSize: Float,
         buttonNextSize: Float,
         fontCalender: String,
-        gravity : Int
+        gravity: Int,
+        statusOpenMark: Boolean
     ) {
         binding = CalenderCustomBinding.inflate(LayoutInflater.from(context), viewGroup, true)
         mEventCalender = EventCalender()
@@ -86,6 +87,12 @@ class CalenderDefaultType : EventCalenderManager {
         this.startWeekCalender = startWeekCalender
         setFontCalender(fontCalender)
         setTitleSize(titleSize)
+
+        clickCalendar = if (statusOpenMark) {
+            Calendar.getInstance()
+        } else {
+            null
+        }
 
         setTitleColor(titleColor)
         setVisibilityLineNameDay(visibilityLineNameDay)
@@ -102,14 +109,13 @@ class CalenderDefaultType : EventCalenderManager {
         setNameDayColor(nameDayColor)
         setNameDaySize(nameDaySize)
         setFormatterCalender(simpleDateFormat)
-        setCalender(calender)
 
         // set through Adapter
         setDayCalenderSize(dayCalenderSize)
         setMarkDayColor(markDayColor)
         setDayCalenderColor(dayCalenderColor)
         setMarkTextDayColor(markTextDayColor)
-        mEventCalender.setGravity(binding.layoutNameDay,gravity)
+        mEventCalender.setGravity(binding.layoutNameDay, gravity)
 
         binding.btnBack.setOnClickListener {
             calenderShowView.set(
@@ -118,7 +124,9 @@ class CalenderDefaultType : EventCalenderManager {
                 mEventCalender.getDayInMonth(false, calenderShowView)
             )
             binding.textDay.text = formatter.format(calenderShowView.time)
-            clickCalendar.time = calenderShowView.time
+            clickCalendar?.let {
+                it.time = calenderShowView.time
+            }
             setRecyclerViewDay()
             onClickButtonBackAndNextCalender.value = calenderShowView.time
 
@@ -130,7 +138,9 @@ class CalenderDefaultType : EventCalenderManager {
                 mEventCalender.getDayInMonth(true, calenderShowView)
             )
             binding.textDay.text = formatter.format(calenderShowView.time)
-            clickCalendar.time = calenderShowView.time
+            clickCalendar?.let {
+                it.time = calenderShowView.time
+            }
             setRecyclerViewDay()
             onClickButtonBackAndNextCalender.value = calenderShowView.time
         }
@@ -140,7 +150,10 @@ class CalenderDefaultType : EventCalenderManager {
             binding.layoutDay,
             startWeek,
             colorTextDay,
-            nameDaySize,customFont
+            nameDaySize,
+            customFont,
+            statusSatSunColorBar,
+            this.colorSatSunBar ?: context.resources.getColorStateList(R.color.bg)
         )
 
         setRecyclerViewDay()
@@ -162,9 +175,11 @@ class CalenderDefaultType : EventCalenderManager {
             this.colorSatSunBar ?: context.resources.getColorStateList(R.color.bg),
             customFont
         ) {
+            val calenderClick = Calendar.getInstance()
+            calenderClick.time = it
             onClickCalendar.value = it
-            clickCalendar.time = it
-            calenderShowView.time = clickCalendar.time
+            clickCalendar = calenderClick
+            calenderShowView.time = calenderClick.time
             setRecyclerViewDay()
             binding.textDay.text = formatter.format(calenderShowView.time)
             mAdapterDayCalendar.notifyDataSetChanged()
@@ -233,6 +248,7 @@ class CalenderDefaultType : EventCalenderManager {
     override fun setCalender(calender: Date) {
         calenderShowView.time = calender
         binding.textDay.text = formatter.format(calenderShowView.time)
+        setRecyclerViewDay()
     }
 
     override fun setStartDayOfWeek(startWeek: Int) {
@@ -244,7 +260,9 @@ class CalenderDefaultType : EventCalenderManager {
             this.startWeek,
             colorTextDay,
             nameDaySize,
-            customFont
+            customFont,
+            statusSatSunColorBar,
+            colorSatSunBar ?: context.resources.getColorStateList(R.color.bg)
         )
     }
 
@@ -265,7 +283,7 @@ class CalenderDefaultType : EventCalenderManager {
             })
     }
 
-    override fun setStatusSatSunColorBar(statusSatSunColorBar: Boolean) {
+    override fun setStatusSatSunColorBar(statusSatSunColorBar: Int) {
         this.statusSatSunColorBar = statusSatSunColorBar
     }
 
@@ -305,7 +323,7 @@ class CalenderDefaultType : EventCalenderManager {
     }
 
     override fun setFontCalender(fontCalender: String) {
-        if (fontCalender != ""){
+        if (fontCalender != "") {
             customFont = Typeface.createFromAsset(context.assets, fontCalender)
             binding.textDay.typeface = customFont
         }

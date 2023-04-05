@@ -76,7 +76,7 @@ class CalenderCustom : ConstraintLayout {
                     R.styleable.CalenderCustom_size_line_name_day,
                     spToPx(1f, context)
                 ),
-                getBoolean(R.styleable.CalenderCustom_status_sat_sun_color_bar, true),
+                getInt(R.styleable.CalenderCustom_status_sat_sun_color_bar, 0),
                 getColorStateList(R.styleable.CalenderCustom_color_sat_sun_bar),
                 getDrawable(R.styleable.CalenderCustom_src_button_back),
                 getDrawable(R.styleable.CalenderCustom_src_button_next),
@@ -88,8 +88,10 @@ class CalenderCustom : ConstraintLayout {
                     R.styleable.CalenderCustom_size_button_back,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).toFloat(),
-                getString(R.styleable.CalenderCustom_font_calender)?:""
-            ,getInteger(R.styleable.CalenderCustom_gravity_text_date,0))
+                getString(R.styleable.CalenderCustom_font_calender) ?: "",
+                getInteger(R.styleable.CalenderCustom_gravity_text_date, 0),
+                getBoolean(R.styleable.CalenderCustom_open_mark, false)
+            )
             recycle()
         }
     }
@@ -115,14 +117,15 @@ class CalenderCustom : ConstraintLayout {
         startWeekCalender: Int,
         colorLine: Int,
         sizeLine: Int,
-        statusSatSunColorBar: Boolean,
+        statusSatSunColorBar: Int,
         colorSatSunBar: ColorStateList?,
         drawableButtonBack: Drawable?,
         drawableButtonNext: Drawable?,
         buttonBackSize: Float,
         buttonNextSize: Float,
         fontCalender: String,
-        gravity : Int
+        gravity: Int,
+        statusOpenMark: Boolean
     ) {
         manager = CalenderFactory.build(type)
         removeAllViews()
@@ -145,7 +148,7 @@ class CalenderCustom : ConstraintLayout {
             buttonBackSize,
             buttonNextSize,
             fontCalender,
-            gravity
+            gravity,statusOpenMark
         )
     }
 
@@ -199,16 +202,6 @@ class CalenderCustom : ConstraintLayout {
     fun setMarkTextDayColor(markTextDayColor: Int) {
         manager.setMarkTextDayColor(markTextDayColor)
     }
-
-
-    //    fun setTintButtonNextAndBack(colorTint: Int) {
-//        btnBack?.let {
-//            it.imageTintList = resources.getColorStateList(colorTint)
-//        }
-//        btnNext?.let {
-//            it.imageTintList = resources.getColorStateList(colorTint)
-//        }
-//    }
     fun setColorBackgroundToday(colorBackgroundToday: Int) {
         manager.setColorBackgroundToday(colorBackgroundToday)
     }

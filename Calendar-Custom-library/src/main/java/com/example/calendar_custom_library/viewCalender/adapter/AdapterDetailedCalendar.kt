@@ -3,8 +3,7 @@ package com.example.calendar_custom_library.viewCalender.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.util.Log
-import android.view.Gravity
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.example.calendar_custom_library.R
 import com.example.calendar_custom_library.event.EventAdapter
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.log
 
 class AdapterDetailedCalendar(
     private val mContext: Context,
@@ -70,7 +68,7 @@ class AdapterDetailedCalendar(
         val yearSetModel = dateSetModel[Calendar.YEAR]
 
         holder.textNameDay.text = daySetModel.toString()
-        holder.textNameDay.textSize = sizeText
+        holder.textNameDay.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText)
         holder.textNameDay.setTextColor(
             if (mEventAdapter.checkDayInMonth(
                     monthSetModel,
@@ -80,7 +78,7 @@ class AdapterDetailedCalendar(
         )
 
 
-        if (mEventAdapter.checkToDay(daySetModel, monthSetModel, yearSetModel, clickCalendar)) {
+        if (mEventAdapter.checkDayClick(daySetModel, monthSetModel, yearSetModel, clickCalendar)) {
             holder.layoutDay.setBackgroundColor(colorMarkDay.defaultColor)
             holder.textNameDay.setTextColor(colorTextMarkDay)
             textColorDetailed = colorTextMarkDay

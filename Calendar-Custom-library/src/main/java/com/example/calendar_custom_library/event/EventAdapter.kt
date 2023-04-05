@@ -8,48 +8,81 @@ import java.util.*
 class EventAdapter(private val mContext: Context) {
 
 
-     fun checkDateToDay(
-         daySetModel: Int,
-         monthSetModel: Int,
-         yearSetModel: Int,
-         dateToDay: Calendar,
-         clickCalendar: Calendar
-     ): Boolean {
-        return checkDayDateToday(daySetModel,dateToDay,clickCalendar) && checkMonthDateToday(monthSetModel,dateToDay,clickCalendar) && checkYearDateToday(yearSetModel,dateToDay,clickCalendar)
+    fun checkDateToDay(
+        daySetModel: Int,
+        monthSetModel: Int,
+        yearSetModel: Int,
+        dateToDay: Calendar,
+        clickCalendar: Calendar?
+    ): Boolean {
+        return checkDayDateToday(daySetModel, dateToDay, clickCalendar) && checkMonthDateToday(
+            monthSetModel,
+            dateToDay,
+            clickCalendar
+        ) && checkYearDateToday(yearSetModel, dateToDay, clickCalendar)
     }
 
-     private fun checkDayDateToday(daySetModel: Int, dateToDay: Calendar, clickCalendar: Calendar): Boolean {
-        return dateToDay[Calendar.DAY_OF_MONTH] == daySetModel && dateToDay[Calendar.DAY_OF_MONTH] != clickCalendar[Calendar.DAY_OF_MONTH]
+    private fun checkDayDateToday(
+        daySetModel: Int,
+        dateToDay: Calendar,
+        clickCalendar: Calendar?
+    ): Boolean {
+        return if (clickCalendar == null) {
+            dateToDay[Calendar.DAY_OF_MONTH] == daySetModel
+        } else {
+            dateToDay[Calendar.DAY_OF_MONTH] == daySetModel && dateToDay[Calendar.DAY_OF_MONTH] != clickCalendar[Calendar.DAY_OF_MONTH]
+        }
+
     }
 
-     private fun checkMonthDateToday(monthSetModel: Int, dateToDay: Calendar, clickCalendar: Calendar): Boolean {
-        return dateToDay[Calendar.MONTH] == monthSetModel && dateToDay[Calendar.MONTH] == clickCalendar[Calendar.MONTH]
+    private fun checkMonthDateToday(
+        monthSetModel: Int,
+        dateToDay: Calendar,
+        clickCalendar: Calendar?
+    ): Boolean {
+        return if (clickCalendar == null) {
+            dateToDay[Calendar.MONTH] == monthSetModel
+        } else {
+            dateToDay[Calendar.MONTH] == monthSetModel && dateToDay[Calendar.MONTH] == clickCalendar[Calendar.MONTH]
+        }
     }
 
-     private fun checkYearDateToday(yearSetModel: Int, dateToDay: Calendar, clickCalendar: Calendar): Boolean {
-        return dateToDay[Calendar.YEAR] == yearSetModel && dateToDay[Calendar.YEAR] == clickCalendar[Calendar.YEAR]
+    private fun checkYearDateToday(
+        yearSetModel: Int,
+        dateToDay: Calendar,
+        clickCalendar: Calendar?
+    ): Boolean {
+        return if (clickCalendar == null) {
+            dateToDay[Calendar.YEAR] == yearSetModel
+        } else {
+            dateToDay[Calendar.YEAR] == yearSetModel && dateToDay[Calendar.YEAR] == clickCalendar[Calendar.YEAR]
+        }
     }
 
-     fun checkToDay(
-         daySetModel: Int,
-         monthSetModel: Int,
-         yearSetModel: Int,
-         clickCalendar: Calendar
-     ): Boolean {
+    fun checkDayClick(
+        daySetModel: Int,
+        monthSetModel: Int,
+        yearSetModel: Int,
+        clickCalendar: Calendar
+    ): Boolean {
         return clickCalendar.get(Calendar.DAY_OF_MONTH) == daySetModel && clickCalendar.get(
             Calendar.MONTH
         ) == monthSetModel && clickCalendar.get(Calendar.YEAR) == yearSetModel
     }
 
-     fun checkDayInMonth(monthSetModel: Int, yearSetModel: Int, calenderShowView: Calendar): Boolean {
+    fun checkDayInMonth(
+        monthSetModel: Int,
+        yearSetModel: Int,
+        calenderShowView: Calendar
+    ): Boolean {
         return calenderShowView.get(Calendar.MONTH) == monthSetModel && calenderShowView.get(
             Calendar.YEAR
         ) == yearSetModel
 
     }
 
-     fun checkSatAndSun(dateSetModel: Calendar, position: Int): Drawable? {
-        if (position <= 6) {
+    fun checkSatAndSun(dateSetModel: Calendar, position: Int, statusSatSunColorBar: Int): Drawable? {
+        if (position <= 6 && statusSatSunColorBar != 1) {
             return if (dateSetModel.get(Calendar.DAY_OF_WEEK) == 7) {
                 mContext.resources.getDrawable(R.drawable.custom_radius_top_bottom_left_13)
             } else if (dateSetModel.get(Calendar.DAY_OF_WEEK) == 1) {
