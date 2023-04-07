@@ -4,43 +4,82 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/layoutDay"
-        android:layout_width="40dp"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineV25"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_square_13"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintGuide_percent="0.15" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/statusDay"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:visibility="gone"
-            android:background="@drawable/custom_oval"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineV75"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="เต็ม"
-            android:textColor="@color/text_font_black"
-            android:textSize="12dp"
-            android:visibility="invisible" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineH15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textNameDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textColor="@color/text_font_black"
-            android:textSize="18sp" />
-    </LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineH95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/layoutDay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/custom_square_13"
+        android:backgroundTint="@color/text_font_black"
+        app:layout_constraintBottom_toBottomOf="@+id/guidelineH95"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/guidelineV75"
+        app:layout_constraintStart_toStartOf="@id/guidelineV25"
+        app:layout_constraintTop_toTopOf="@id/guidelineH15" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textNameDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/layoutDay"
+        app:layout_constraintEnd_toEndOf="@id/layoutDay"
+        app:layout_constraintStart_toStartOf="@id/layoutDay"
+        app:layout_constraintTop_toTopOf="@+id/layoutDay" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/statusDay"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/custom_oval"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/textNameDay"
+        app:layout_constraintEnd_toEndOf="@id/layoutDay"
+        app:layout_constraintStart_toStartOf="@id/layoutDay"
+        app:layout_constraintTop_toTopOf="@+id/layoutDay" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="เต็ม"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/textNameDay"
+        app:layout_constraintEnd_toEndOf="@id/layoutDay"
+        app:layout_constraintStart_toStartOf="@id/layoutDay"
+        app:layout_constraintTop_toTopOf="@+id/layoutDay" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

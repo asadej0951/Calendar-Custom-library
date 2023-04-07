@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         c["test"] = convertStringCalendar("15 04 2023")
         c["double"] = resources.getColorStateList(R.color.orange_new)
+        c["asdas"] =false
 
 
 
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         x.setColorBackgroundToday(resources.getColor(R.color.purple_200))
         x.setColorTextToday(resources.getColor(R.color.purple_500))
         x.setDataCalender(test)
-        x.setCalender(mCalendar.time)
+//        x.setCalender(mCalendar.time)
         x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
 
 //        x.setFormatterCalender("dd MMMM yyyy", Locale.US)

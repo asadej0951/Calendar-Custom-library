@@ -3,6 +3,7 @@ package com.example.calendar_custom_library.viewCalender.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -132,8 +133,9 @@ class AdapterDayCalenderColorStatus(
                         holder.itemView.isEnabled = it
                         holder.textNameDay.setTextColor(mContext.resources.getColor(R.color.gray_arrow))
                     }
+                }else{
+                    holder.itemView.isEnabled = true
                 }
-
                 this.statusClickDay = null
                 this.dateHashMap = null
                 this.colorStatus = null
@@ -191,7 +193,7 @@ class AdapterDayCalenderColorStatus(
 
 
 class ViewHolderCalenderColorStatus(item: View) : RecyclerView.ViewHolder(item) {
-    val layoutDay: LinearLayout = item.findViewById(R.id.layoutDay)
+    val layoutDay: TextView = item.findViewById(R.id.layoutDay)
     val statusDay: TextView = item.findViewById(R.id.statusDay)
     val textStatus: TextView = item.findViewById(R.id.textStatus)
     val textNameDay: TextView = item.findViewById(R.id.textNameDay)
