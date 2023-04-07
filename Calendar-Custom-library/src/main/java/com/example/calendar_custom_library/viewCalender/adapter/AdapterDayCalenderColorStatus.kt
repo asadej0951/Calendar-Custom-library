@@ -108,7 +108,7 @@ class AdapterDayCalenderColorStatus(
             holder.textNameDay.setTextColor(colorMarkDay)
         }
         holder.statusDay.visibility = View.GONE
-        holder.textStatus.visibility = View.INVISIBLE
+        holder.textStatus.visibility = View.GONE
         mHashMap.map { data ->
             data.keys.map {
                 checkDataHashMap(data, it)

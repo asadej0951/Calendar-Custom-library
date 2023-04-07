@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         c["test"] = convertStringCalendar("15 04 2023")
         c["double"] = resources.getColorStateList(R.color.orange_new)
-        c["asdas"] =false
+        c["asdas"] = false
+        c["sss"] = "เต็ม"
 
 
 
