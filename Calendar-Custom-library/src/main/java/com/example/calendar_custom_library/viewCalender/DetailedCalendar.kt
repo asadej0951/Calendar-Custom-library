@@ -61,6 +61,7 @@ class DetailedCalendar : EventCalenderManager {
     private var colorTextToday: Int? = null
 
     private val mHashMap = ArrayList<HashMap<String, Any>>()
+    private var statusOpenMark = false
 
     override fun initViewCalender(
         context: Context,
@@ -94,6 +95,7 @@ class DetailedCalendar : EventCalenderManager {
         binding = CalenderDerailedBinding.inflate(LayoutInflater.from(context), viewGroup, true)
         mEventCalender = EventCalender()
         this.context = context
+        this.statusOpenMark = statusOpenMark
 
         // set through view
         startWeek.clear()

@@ -54,9 +54,10 @@ class MainActivity : AppCompatActivity() {
         x.setColorBackgroundToday(resources.getColor(R.color.purple_200))
         x.setColorTextToday(resources.getColor(R.color.purple_500))
         x.setDataCalender(test)
+        x.setCalender( convertStringCalendar("15 05 2023"))
 //        x.setCalender(mCalendar.time)
-        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
-
+//        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
+        x.setFormatterCalender("dd MMMM yyyy",Locale("th"))
 //        x.setFormatterCalender("dd MMMM yyyy", Locale.US)
 
         x.setOnClickButtonBackAndNextCalender {

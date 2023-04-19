@@ -34,7 +34,7 @@ class CalenderDefaultType : EventCalenderManager {
     private var thaiCalendar =
         ThaiBuddhistChronology.INSTANCE.date(instant.atZone(ZoneId.systemDefault()).toLocalDate())
 
-    private var locale =  Locale.US
+    private var locale = Locale.US
 
     private var clickCalendar: Calendar? = null
     private val onClickCalendar = MutableLiveData<Date>()
@@ -55,6 +55,8 @@ class CalenderDefaultType : EventCalenderManager {
     private var colorSatSunBar: ColorStateList? = null
 
     private var customFont: Typeface? = null
+
+    private var statusOpenMark = false
 
 
     override fun initViewCalender(
@@ -88,6 +90,7 @@ class CalenderDefaultType : EventCalenderManager {
         binding = CalenderCustomBinding.inflate(LayoutInflater.from(context), viewGroup, true)
         mEventCalender = EventCalender()
         this.context = context
+        this.statusOpenMark = statusOpenMark
 
         // set through view
         startWeek.clear()
@@ -127,16 +130,16 @@ class CalenderDefaultType : EventCalenderManager {
         setMarkTextDayColor(markTextDayColor)
         mEventCalender.setGravity(binding.layoutNameDay, gravity)
 
-        when(visibilityButton){
-            1 ->{
+        when (visibilityButton) {
+            1 -> {
                 binding.btnBack.visibility = View.INVISIBLE
                 binding.btnNext.visibility = View.INVISIBLE
             }
-            2 ->{
+            2 -> {
                 binding.btnBack.visibility = View.GONE
                 binding.btnNext.visibility = View.GONE
             }
-            else->{
+            else -> {
                 binding.btnBack.visibility = View.VISIBLE
                 binding.btnNext.visibility = View.VISIBLE
             }
@@ -149,7 +152,13 @@ class CalenderDefaultType : EventCalenderManager {
                 mEventCalender.getDayInMonth(false, calenderShowView)
             )
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
             clickCalendar?.let {
                 it.time = calenderShowView.time
             }
@@ -164,7 +173,13 @@ class CalenderDefaultType : EventCalenderManager {
                 mEventCalender.getDayInMonth(true, calenderShowView)
             )
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
             clickCalendar?.let {
                 it.time = calenderShowView.time
             }
@@ -210,7 +225,13 @@ class CalenderDefaultType : EventCalenderManager {
             calenderShowView.time = calenderClick.time
             setRecyclerViewDay()
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
             mAdapterDayCalendar.notifyDataSetChanged()
         }
         binding.recyclerViewDay.apply {
@@ -266,7 +287,13 @@ class CalenderDefaultType : EventCalenderManager {
             callback.invoke(date)
             calenderShowView.time = date
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
 
         })
     }
@@ -280,14 +307,29 @@ class CalenderDefaultType : EventCalenderManager {
         this.locale = locale
         formatter = SimpleDateFormat(format, locale)
         formatterTh = DateTimeFormatter.ofPattern(format, Locale("th", "TH", "TH"))
-        binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+        binding.textDay.text = mEventCalender.checkLocale(
+            formatter,
+            formatterTh,
+            this.locale,
+            calenderShowView,
+            thaiCalendar
+        )
     }
 
 
     override fun setCalender(calender: Date) {
         calenderShowView.time = calender
+        if (statusOpenMark) {
+            clickCalendar = calenderShowView
+        }
         thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-        binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+        binding.textDay.text = mEventCalender.checkLocale(
+            formatter,
+            formatterTh,
+            this.locale,
+            calenderShowView,
+            thaiCalendar
+        )
         setRecyclerViewDay()
     }
 

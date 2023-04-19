@@ -58,6 +58,7 @@ class CalenderMarkColor : EventCalenderManager {
     private var customFont: Typeface? = null
 
     private val mHashMap = ArrayList<HashMap<String, Any>>()
+    private var statusOpenMark = false
 
     override fun initViewCalender(
         context: Context,
@@ -91,6 +92,7 @@ class CalenderMarkColor : EventCalenderManager {
         binding = CalenderCustomBinding.inflate(LayoutInflater.from(context), viewGroup, true)
         mEventCalender = EventCalender()
         this.context = context
+        this.statusOpenMark = statusOpenMark
 
         // set through view
         startWeek.clear()
@@ -290,7 +292,11 @@ class CalenderMarkColor : EventCalenderManager {
     }
 
     override fun setCalender(calender: Date) {
+
         calenderShowView.time = calender
+        if (statusOpenMark) {
+            clickCalendar = calenderShowView
+        }
         thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
         binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
         setRecyclerViewDay()
