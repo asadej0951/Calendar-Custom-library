@@ -26,14 +26,14 @@ class MainActivity : AppCompatActivity() {
         val a: HashMap<String, Any> = java.util.HashMap()
         val b: HashMap<String, Any> = java.util.HashMap()
         val c: HashMap<String, Any> = java.util.HashMap()
-        a["test"] = convertStringCalendar("12 04 2023")
-        a["double"] = resources.getColorStateList(R.color.orange_new)
+        a["test"] = convertStringCalendar("12 06 2023")
+        a["double"] = resources.getColorStateList(R.color.text_font_black)
 
-        b["test"] = convertStringCalendar("17 04 2023")
-        b["double"] = resources.getColorStateList(R.color.orange_new)
+        b["test"] = convertStringCalendar("17 06 2023")
+        b["double"] = resources.getColorStateList(R.color.text_font_black)
 
-        c["test"] = convertStringCalendar("15 04 2023")
-        c["double"] = resources.getColorStateList(R.color.orange_new)
+        c["test"] = convertStringCalendar("15 06 2023")
+        c["double"] = resources.getColorStateList(R.color.text_font_black)
         c["asdas"] = false
         c["sss"] = "เต็ม"
 
@@ -54,38 +54,28 @@ class MainActivity : AppCompatActivity() {
         x.setColorBackgroundToday(resources.getColor(R.color.purple_200))
         x.setColorTextToday(resources.getColor(R.color.purple_500))
         x.setDataCalender(test)
-        x.setCalender( convertStringCalendar("15 05 2023"))
+//        x.setCalender( convertStringCalendar("15 05 2023"))
 //        x.setCalender(mCalendar.time)
 //        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
         x.setFormatterCalender("dd MMMM yyyy",Locale("th"))
 //        x.setFormatterCalender("dd MMMM yyyy", Locale.US)
 
         x.setOnClickButtonBackAndNextCalender {
-            test.clear()
-            val b: HashMap<String, Any> = java.util.HashMap()
-            val c: HashMap<String, Any> = java.util.HashMap()
-            a["test"] = convertStringCalendar("02 05 2023")
-            a["double"] = resources.getColorStateList(R.color.orange_new)
-            c["test"] = convertStringCalendar("07 05 2023")
-            c["double"] = resources.getColorStateList(R.color.orange_new)
-            c["sss"] = "9999"
-            test.add(a)
-            test.add(c)
-            x.setDataCalender(test)
+//            test.clear()
+//            val b: HashMap<String, Any> = java.util.HashMap()
+//            val c: HashMap<String, Any> = java.util.HashMap()
+//            a["test"] = convertStringCalendar("02 05 2023")
+//            a["double"] = resources.getColorStateList(R.color.orange_new)
+//            c["test"] = convertStringCalendar("07 05 2023")
+//            c["double"] = resources.getColorStateList(R.color.orange_new)
+//            c["sss"] = "9999"
+//            test.add(a)
+//            test.add(c)
+//            x.setDataCalender(test)
         }
         x.setOnClickCalender {
             Log.i("checkDateTime", f.format(it))
         }
-
-//        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
-//        var formatter = SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH"))
-//        x.setOnClickCalender {
-//            Log.i("checkDate",formatter.format(it))
-//        }
-//        x.setOnClickButtonBackAndNextCalender {
-//            Log.i("checkDate",formatter.format(it))
-//        }
-
     }
 
     private fun convertStringCalendar(dateTime: String): Date {

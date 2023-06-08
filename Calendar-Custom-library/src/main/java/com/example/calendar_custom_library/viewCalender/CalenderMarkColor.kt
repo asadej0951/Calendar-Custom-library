@@ -32,14 +32,14 @@ class CalenderMarkColor : EventCalenderManager {
     private lateinit var context: Context
     private lateinit var mAdapterDayCalenderColorStatus: AdapterDayCalenderColorStatus
 
-    private var locale =  Locale.US
+    private var locale = Locale.US
     private val calenderShowView = Calendar.getInstance()
     private val instant = calenderShowView.toInstant()
     private var thaiCalendar =
         ThaiBuddhistChronology.INSTANCE.date(instant.atZone(ZoneId.systemDefault()).toLocalDate())
 
 
-    private var clickCalendar : Calendar? =null
+    private var clickCalendar: Calendar? = null
     private val onClickCalendar = MutableLiveData<Date>()
     private val onClickButtonBackAndNextCalender = MutableLiveData<Date>()
     private var formatter = SimpleDateFormat("MMMM yyyy", Locale("th", "TH"))
@@ -101,9 +101,9 @@ class CalenderMarkColor : EventCalenderManager {
         )
         this.startWeekCalender = startWeekCalender
 
-        clickCalendar = if (statusOpenMark){
+        clickCalendar = if (statusOpenMark) {
             Calendar.getInstance()
-        }else{
+        } else {
             null
         }
         setTitleSize(titleSize)
@@ -130,22 +130,22 @@ class CalenderMarkColor : EventCalenderManager {
         setDayCalenderColor(dayCalenderColor)
         setMarkTextDayColor(markTextDayColor)
 
-        when(visibilityButton){
-            1 ->{
+        when (visibilityButton) {
+            1 -> {
                 binding.btnBack.visibility = View.INVISIBLE
                 binding.btnNext.visibility = View.INVISIBLE
             }
-            2 ->{
+            2 -> {
                 binding.btnBack.visibility = View.GONE
                 binding.btnNext.visibility = View.GONE
             }
-            else->{
+            else -> {
                 binding.btnBack.visibility = View.VISIBLE
                 binding.btnNext.visibility = View.VISIBLE
             }
         }
 
-        mEventCalender.setGravity(binding.layoutNameDay,gravity)
+        mEventCalender.setGravity(binding.layoutNameDay, gravity)
 
         binding.btnBack.setOnClickListener {
             calenderShowView.set(
@@ -153,14 +153,23 @@ class CalenderMarkColor : EventCalenderManager {
                 calenderShowView.get(Calendar.MONTH) - 1,
                 mEventCalender.getDayInMonth(false, calenderShowView)
             )
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
             clickCalendar?.let {
                 it.time = calenderShowView.time
             }
 
             setRecyclerViewDay()
+            Log.i("checkDateTimeBack", formatter.format(
+                calenderShowView.time
+            ))
             onClickButtonBackAndNextCalender.value = calenderShowView.time
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
 
         }
         binding.btnNext.setOnClickListener {
@@ -169,13 +178,22 @@ class CalenderMarkColor : EventCalenderManager {
                 calenderShowView.get(Calendar.MONTH) + 1,
                 mEventCalender.getDayInMonth(true, calenderShowView)
             )
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
             clickCalendar?.let {
                 it.time = calenderShowView.time
             }
             setRecyclerViewDay()
+            Log.i("checkDateTimeNext", formatter.format(
+                calenderShowView.time
+            ))
             onClickButtonBackAndNextCalender.value = calenderShowView.time
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
         }
 
         mEventCalender.setDayStart(
@@ -213,13 +231,19 @@ class CalenderMarkColor : EventCalenderManager {
             customFont
         ) {
             val calenderClick = Calendar.getInstance()
-            calenderClick.time =it
+            calenderClick.time = it
             onClickCalendar.value = it
             clickCalendar = calenderClick
             calenderShowView.time = calenderClick.time
             setRecyclerViewDay()
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
             mAdapterDayCalenderColorStatus.notifyDataSetChanged()
         }
         binding.recyclerViewDay.apply {
@@ -275,7 +299,13 @@ class CalenderMarkColor : EventCalenderManager {
             callback.invoke(date)
             calenderShowView.time = date
             thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-            binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+            binding.textDay.text = mEventCalender.checkLocale(
+                formatter,
+                formatterTh,
+                this.locale,
+                calenderShowView,
+                thaiCalendar
+            )
         })
     }
 
@@ -288,7 +318,13 @@ class CalenderMarkColor : EventCalenderManager {
         this.locale = locale
         formatter = SimpleDateFormat(format, locale)
         formatterTh = DateTimeFormatter.ofPattern(format, Locale("th", "TH", "TH"))
-        binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+        binding.textDay.text = mEventCalender.checkLocale(
+            formatter,
+            formatterTh,
+            this.locale,
+            calenderShowView,
+            thaiCalendar
+        )
     }
 
     override fun setCalender(calender: Date) {
@@ -298,7 +334,13 @@ class CalenderMarkColor : EventCalenderManager {
             clickCalendar = calenderShowView
         }
         thaiCalendar = mEventCalender.calenderToThaiCalendar(calenderShowView)
-        binding.textDay.text = mEventCalender.checkLocale(formatter,formatterTh,this.locale,calenderShowView,thaiCalendar)
+        binding.textDay.text = mEventCalender.checkLocale(
+            formatter,
+            formatterTh,
+            this.locale,
+            calenderShowView,
+            thaiCalendar
+        )
         setRecyclerViewDay()
     }
 
@@ -327,9 +369,17 @@ class CalenderMarkColor : EventCalenderManager {
     }
 
     override fun setOnClickButtonBackAndNextCalender(callback: (Date) -> Unit) {
+
         onClickButtonBackAndNextCalender.observe(
             context as LifecycleOwner,
             androidx.lifecycle.Observer {
+
+                Log.i("checkDateTimeShow", binding.textDay.text.toString())
+                Log.i(
+                    "checkDateTime", formatter.format(
+                        calenderShowView.time
+                    )
+                )
                 callback.invoke(it)
             })
     }
