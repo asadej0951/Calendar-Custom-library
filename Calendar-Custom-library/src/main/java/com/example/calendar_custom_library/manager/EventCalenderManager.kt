@@ -77,7 +77,7 @@ interface EventCalenderManager {
 
     fun setFontCalender(fontCalender: String)
 
-
-
+    fun setPositionLayoutStatusDay(position: Boolean)
+    fun setSizeStatusDay(size: Float)
 
 }

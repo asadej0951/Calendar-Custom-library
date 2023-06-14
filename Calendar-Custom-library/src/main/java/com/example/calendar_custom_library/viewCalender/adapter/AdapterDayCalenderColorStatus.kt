@@ -3,18 +3,16 @@ package com.example.calendar_custom_library.viewCalender.adapter
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calendar_custom_library.R
 import com.example.calendar_custom_library.event.EventAdapter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AdapterDayCalenderColorStatus(
     private val mContext: Context,
@@ -29,6 +27,8 @@ class AdapterDayCalenderColorStatus(
     private val colorSatSunBar: ColorStateList,
     private val mHashMap: ArrayList<HashMap<String, Any>>,
     private val customFont: Typeface?,
+    private val positionLayoutStatusDay: Boolean = true,
+    private val sizeLayoutStatusDay: Float = 10f,
     private val callBack: ((Date) -> Unit)
 ) : RecyclerView.Adapter<ViewHolderCalenderColorStatus>() {
     private lateinit var mEventAdapter: EventAdapter
@@ -41,17 +41,15 @@ class AdapterDayCalenderColorStatus(
     private var textStatus = ""
     private var colorTextDayStatus: ColorStateList? = null
     private var statusClickDay: Boolean? = null
+    private val density = mContext.resources.displayMetrics.density
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolderCalenderColorStatus {
         mEventAdapter = EventAdapter(mContext)
-        return ViewHolderCalenderColorStatus(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.calender_color_status, parent, false
-            )
-        )
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.calender_color_status, parent, false)
+        return ViewHolderCalenderColorStatus(itemView)
     }
 
     override fun getItemCount() = dayData.size
@@ -61,6 +59,17 @@ class AdapterDayCalenderColorStatus(
             holder.textNameDay.typeface = customFont
             holder.textStatus.typeface = customFont
         }
+
+        val topLayoutParams: ViewGroup.LayoutParams = holder.statusDayTop.layoutParams
+        topLayoutParams.width = (sizeLayoutStatusDay * density).toInt() // Width in dp
+        topLayoutParams.height = (sizeLayoutStatusDay * density).toInt() // Height in dp
+        holder.statusDayTop.layoutParams = topLayoutParams
+
+        val bottomLayoutParams: ViewGroup.LayoutParams = holder.statusDayBottom.layoutParams
+        bottomLayoutParams.width = (sizeLayoutStatusDay * density).toInt() // Width in dp
+        bottomLayoutParams.height = (sizeLayoutStatusDay * density).toInt() // Height in dp
+        holder.statusDayBottom.layoutParams = bottomLayoutParams
+
         date = dayData[position]
         val dateSetModel = Calendar.getInstance()
         dateSetModel.time = date
@@ -93,8 +102,8 @@ class AdapterDayCalenderColorStatus(
                 mContext.resources.getColorStateList(R.color.clear_color)
         }
 
-        if (statusSatSunColorBar != 2 ) {
-            mEventAdapter.checkSatAndSun(dateSetModel, position,statusSatSunColorBar)?.let {
+        if (statusSatSunColorBar != 2) {
+            mEventAdapter.checkSatAndSun(dateSetModel, position, statusSatSunColorBar)?.let {
                 holder.itemView.background = it
                 holder.itemView.backgroundTintList = colorSatSunBar
             }
@@ -107,8 +116,10 @@ class AdapterDayCalenderColorStatus(
         ) {
             holder.textNameDay.setTextColor(colorMarkDay)
         }
-        holder.statusDay.visibility = View.GONE
+        holder.statusDayTop.visibility = View.GONE
+        holder.statusDayBottom.visibility = View.GONE
         holder.textStatus.visibility = View.GONE
+
         mHashMap.map { data ->
             data.keys.map {
                 checkDataHashMap(data, it)
@@ -117,14 +128,21 @@ class AdapterDayCalenderColorStatus(
                 calenderHashMap.time = dateHashMap
                 if (checkDayStatus(calenderHashMap, daySetModel, monthSetModel, yearSetModel)) {
                     if (textStatus != "") {
-                        holder.statusDay.visibility = View.GONE
+                        holder.statusDayTop.visibility = View.GONE
                         holder.textStatus.visibility = View.VISIBLE
                         holder.textStatus.text = textStatus
                         holder.textStatus.setTextColor(colorStatus)
                     } else {
-                        holder.statusDay.visibility = View.VISIBLE
+                        if (positionLayoutStatusDay) {
+                            holder.statusDayTop.visibility = View.VISIBLE
+                            holder.statusDayBottom.visibility = View.GONE
+                        } else {
+                            holder.statusDayTop.visibility = View.GONE
+                            holder.statusDayBottom.visibility = View.VISIBLE
+                        }
                         holder.textStatus.visibility = View.GONE
-                        holder.statusDay.backgroundTintList = colorStatus
+                        holder.statusDayTop.backgroundTintList = colorStatus
+                        holder.statusDayBottom.backgroundTintList = colorStatus
                     }
                     colorTextDayStatus?.let {
                         holder.textNameDay.setTextColor(it)
@@ -133,7 +151,7 @@ class AdapterDayCalenderColorStatus(
                         holder.itemView.isEnabled = it
                         holder.textNameDay.setTextColor(mContext.resources.getColor(R.color.gray_arrow))
                     }
-                }else{
+                } else {
                     holder.itemView.isEnabled = true
                 }
                 this.statusClickDay = null
@@ -194,7 +212,8 @@ class AdapterDayCalenderColorStatus(
 
 class ViewHolderCalenderColorStatus(item: View) : RecyclerView.ViewHolder(item) {
     val layoutDay: TextView = item.findViewById(R.id.layoutDay)
-    val statusDay: TextView = item.findViewById(R.id.statusDay)
+    val statusDayTop: TextView = item.findViewById(R.id.statusDayTop)
+    val statusDayBottom: TextView = item.findViewById(R.id.statusDayBottom)
     val textStatus: TextView = item.findViewById(R.id.textStatus)
     val textNameDay: TextView = item.findViewById(R.id.textNameDay)
 }

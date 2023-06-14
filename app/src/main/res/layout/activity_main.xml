@@ -31,6 +31,8 @@
         app:visibility_button="visible"
         app:color_text_title="@color/orange_new"
         app:size_text_day_calender="4sp"
+        app:gravity_text_date="start"
+        app:size_button_back="15dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 

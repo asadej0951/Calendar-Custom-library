@@ -411,4 +411,11 @@ class CalenderDefaultType : EventCalenderManager {
         }
 
     }
+
+    override fun setPositionLayoutStatusDay(position: Boolean) {
+
+    }
+
+    override fun setSizeStatusDay(size: Float) {
+    }
 }

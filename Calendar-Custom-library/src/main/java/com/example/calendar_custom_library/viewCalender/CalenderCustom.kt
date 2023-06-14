@@ -85,7 +85,7 @@ class CalenderCustom : ConstraintLayout {
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).toFloat(),
                 getDimensionPixelSize(
-                    R.styleable.CalenderCustom_size_button_back,
+                    R.styleable.CalenderCustom_size_button_next,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).toFloat(),
                 getString(R.styleable.CalenderCustom_font_calender) ?: "",
@@ -249,5 +249,10 @@ class CalenderCustom : ConstraintLayout {
         manager.setVisibilityLineNameDay(visibility)
     }
 
-
+    fun setPositionLayoutStatusDay(position: Boolean){
+        manager.setPositionLayoutStatusDay(position)
+    }
+    fun setSizeStatusDay(size: Float){
+        manager.setSizeStatusDay(size)
+    }
 }

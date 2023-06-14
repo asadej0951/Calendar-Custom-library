@@ -56,6 +56,8 @@ class CalenderMarkColor : EventCalenderManager {
     private var statusSatSunColorBar = 0
     private var colorSatSunBar: ColorStateList? = null
     private var customFont: Typeface? = null
+    private var positionLayoutStatusDay: Boolean = true
+    private var sizeLayoutStatusDay: Float = 10f
 
     private val mHashMap = ArrayList<HashMap<String, Any>>()
     private var statusOpenMark = false
@@ -228,7 +230,7 @@ class CalenderMarkColor : EventCalenderManager {
             this.statusSatSunColorBar,
             this.colorSatSunBar ?: context.resources.getColorStateList(R.color.bg),
             mHashMap,
-            customFont
+            customFont,this.positionLayoutStatusDay,sizeLayoutStatusDay
         ) {
             val calenderClick = Calendar.getInstance()
             calenderClick.time = it
@@ -434,5 +436,15 @@ class CalenderMarkColor : EventCalenderManager {
             binding.textDay.typeface = customFont
         }
 
+    }
+
+    override fun setPositionLayoutStatusDay(position: Boolean) {
+       this.positionLayoutStatusDay = position
+        setRecyclerViewDay()
+    }
+
+    override fun setSizeStatusDay(size: Float) {
+       this.sizeLayoutStatusDay = size
+        setRecyclerViewDay()
     }
 }

@@ -58,7 +58,7 @@
         app:layout_constraintTop_toTopOf="@+id/layoutDay" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/statusDay"
+        android:id="@+id/statusDayTop"
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:background="@drawable/custom_oval"
@@ -67,6 +67,17 @@
         app:layout_constraintEnd_toEndOf="@id/layoutDay"
         app:layout_constraintStart_toStartOf="@id/layoutDay"
         app:layout_constraintTop_toTopOf="@+id/layoutDay" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/statusDayBottom"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/custom_oval"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/textNameDay"
+        app:layout_constraintEnd_toEndOf="@id/layoutDay"
+        app:layout_constraintStart_toStartOf="@id/layoutDay"
+        app:layout_constraintBottom_toBottomOf="@+id/layoutDay" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textStatus"

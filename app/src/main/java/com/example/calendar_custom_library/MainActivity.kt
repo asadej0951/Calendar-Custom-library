@@ -28,14 +28,16 @@ class MainActivity : AppCompatActivity() {
         val c: HashMap<String, Any> = java.util.HashMap()
         a["test"] = convertStringCalendar("12 06 2023")
         a["double"] = resources.getColorStateList(R.color.text_font_black)
+        a["text"] = ""
 
         b["test"] = convertStringCalendar("17 06 2023")
         b["double"] = resources.getColorStateList(R.color.text_font_black)
+        b["message"] = ""
+
 
         c["test"] = convertStringCalendar("15 06 2023")
         c["double"] = resources.getColorStateList(R.color.text_font_black)
-        c["asdas"] = false
-        c["sss"] = "เต็ม"
+        c["data"] = ""
 
 
 
@@ -49,18 +51,20 @@ class MainActivity : AppCompatActivity() {
         t.setOnClickListener {
 
         }
-        val x = findViewById<CalenderCustom>(R.id.test)
+        val calenderCustom = findViewById<CalenderCustom>(R.id.test)
 
-        x.setColorBackgroundToday(resources.getColor(R.color.purple_200))
-        x.setColorTextToday(resources.getColor(R.color.purple_500))
-        x.setDataCalender(test)
+        calenderCustom.setColorBackgroundToday(resources.getColor(R.color.purple_200))
+        calenderCustom.setColorTextToday(resources.getColor(R.color.purple_500))
+        calenderCustom.setSizeStatusDay(5f)
+        calenderCustom.setPositionLayoutStatusDay(false)
+        calenderCustom.setDataCalender(test)
 //        x.setCalender( convertStringCalendar("15 05 2023"))
 //        x.setCalender(mCalendar.time)
 //        x.setFormatterCalender(SimpleDateFormat("dd MMMM yyyy", Locale("th", "TH")))
-        x.setFormatterCalender("dd MMMM yyyy",Locale("th"))
+        calenderCustom.setFormatterCalender("dd MMMM yyyy",Locale("th"))
 //        x.setFormatterCalender("dd MMMM yyyy", Locale.US)
 
-        x.setOnClickButtonBackAndNextCalender {
+        calenderCustom.setOnClickButtonBackAndNextCalender {
 //            test.clear()
 //            val b: HashMap<String, Any> = java.util.HashMap()
 //            val c: HashMap<String, Any> = java.util.HashMap()
@@ -73,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 //            test.add(c)
 //            x.setDataCalender(test)
         }
-        x.setOnClickCalender {
+        calenderCustom.setOnClickCalender {
             Log.i("checkDateTime", f.format(it))
         }
     }
